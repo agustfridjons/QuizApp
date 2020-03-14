@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">QuizMe</string>
+    <string name="login_button">Login</string>
+    <string name="login_text">Please log in</string>
+    <string name="invalid_login">Wrong username or password</string>
+    <string name="signup_button">Sign up</string>
+    <string name="signup_text">Please enter your information</string>
+    <string name="invalid_signup">Please fill in all the fields</string>
+
+
 </resources>
