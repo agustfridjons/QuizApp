@@ -18,9 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     UserDatabaseHelper db;
 
     private Button mLoginButton, mSignUpButton;
-
     private EditText mUsername, mPassword;
-
     private TextView mLoginValid;
 
     @Override

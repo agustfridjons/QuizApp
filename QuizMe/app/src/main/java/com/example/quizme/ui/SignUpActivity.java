@@ -15,13 +15,11 @@ import com.example.quizme.R;
 import com.example.quizme.quizMe.UserDatabaseHelper;
 
 public class SignUpActivity extends AppCompatActivity {
-    
+
     UserDatabaseHelper db;
 
     private Button mSignUpButton;
-
     private EditText mName, mUsername, mPassword;
-
     private TextView mSignUpValid;
 
     @Override
