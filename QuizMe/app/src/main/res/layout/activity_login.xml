@@ -24,7 +24,7 @@
             android:layout_width="107dp"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:autofillHints="Username"
+            android:hint="Username"
             android:labelFor="@id/editUsername" />
 
         <EditText
@@ -32,7 +32,7 @@
             android:layout_width="107dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:autofillHints="Password"
+            android:hint="Password"
             android:labelFor="@id/editPassword" />
 
     </LinearLayout>

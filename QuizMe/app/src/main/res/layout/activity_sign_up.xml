@@ -23,7 +23,7 @@
             android:id="@+id/editName"
             android:layout_width="107dp"
             android:layout_height="wrap_content"
-            android:autofillHints="Name"
+            android:hint="Name"
             android:inputType="text"
             android:labelFor="@id/editName" />
 
@@ -31,7 +31,7 @@
             android:id="@+id/editUsername"
             android:layout_width="107dp"
             android:layout_height="wrap_content"
-            android:autofillHints="Username"
+            android:hint="Username"
             android:inputType="text"
             android:labelFor="@id/editUsername" />
 
@@ -39,7 +39,7 @@
             android:id="@+id/editPassword"
             android:layout_width="107dp"
             android:layout_height="wrap_content"
-            android:autofillHints="Password"
+            android:hint="Password"
             android:inputType="textPassword"
             android:labelFor="@id/editPassword" />
 

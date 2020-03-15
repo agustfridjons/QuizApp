@@ -6,6 +6,8 @@
     <string name="signup_button">Sign up</string>
     <string name="signup_text">Please enter your information</string>
     <string name="invalid_signup">Please fill in all the fields</string>
+    <string name="new_game_button">New Game</string>
+    <string name="view_results_button">View Results</string>
 
 
 </resources>

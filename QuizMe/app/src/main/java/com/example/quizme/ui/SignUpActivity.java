@@ -3,48 +3,59 @@ package com.example.quizme.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quizme.R;
-import com.example.quizme.quizMe.DatabaseHelper;
+import com.example.quizme.quizMe.UserDatabaseHelper;
 
 public class SignUpActivity extends AppCompatActivity {
-
-    ProgressDialog progressDialog;
-
-    DatabaseHelper db;
+    
+    UserDatabaseHelper db;
 
     private Button mSignUpButton;
 
-    private EditText name, username, password;
+    private EditText mName, mUsername, mPassword;
 
-    private TextView signUpValid;
+    private TextView mSignUpValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        db = new DatabaseHelper(this);
+        db = new UserDatabaseHelper(this);
 
         mSignUpButton = (Button) findViewById(R.id.signup_button);
 
-        name = (EditText) findViewById(R.id.editName);
-        username = (EditText) findViewById(R.id.editUsername);
-        password = (EditText) findViewById(R.id.editPassword);
+        mName = (EditText) findViewById(R.id.editName);
+        mUsername = (EditText) findViewById(R.id.editUsername);
+        mPassword = (EditText) findViewById(R.id.editPassword);
 
-        signUpValid = (TextView) findViewById(R.id.login_valid);
-        signUpValid.setVisibility(View.GONE);
+        mSignUpValid = (TextView) findViewById(R.id.login_valid);
+        mSignUpValid.setVisibility(View.GONE);
 
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO signup virkni
+                String name = mName.getText().toString().trim();
+                String username = mUsername.getText().toString().trim();
+                String password = mPassword.getText().toString().trim();
+
+                long val = db.addUser(username, password, name);
+                // TODO kannski breyta i dbmanager hvernig þetta er gert
+                if (val > 0) {
+                    Toast.makeText(SignUpActivity.this, "New user added yayy", Toast.LENGTH_SHORT).show();
+                    Intent moveToLogin = new Intent(SignUpActivity.this, LoginActivity.class);
+                    startActivity(moveToLogin);
+                } else {
+                    Toast.makeText(SignUpActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
 }
