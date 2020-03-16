@@ -42,6 +42,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
         if (score.isEmpty() || category.isEmpty() ){
             return 0;
         }
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_SCORE, score);
