@@ -6,6 +6,17 @@
     <string name="signup_button">Sign up</string>
     <string name="signup_text">Please enter your information</string>
     <string name="invalid_signup">Please fill in all the fields</string>
+    <string name="new_game_button">New Game</string>
+    <string name="view_results_button">View Results</string>
+    <string name="view_friend_list_button">View Friend List</string>
+    <string name="category">Choose a category</string>
+    <string name="start_game">Start Game</string>
 
-
+    <string-array name="category_array">
+        <item>Animals</item>
+        <item>Food</item>
+        <item>Movies</item>
+        <item>Politics</item>
+        <item>Sports</item>
+    </string-array>
 </resources>
