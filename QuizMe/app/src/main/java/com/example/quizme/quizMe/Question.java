@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Question {
     int id;
-    String question, category, correctAnswer;
+    String question, category, correctAnswer, difficulty;
     List<String> wrongAnswers;
 
     public void setId(int id) {
@@ -32,6 +32,10 @@ public class Question {
     public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
 
     public String getCorrectAnswer() { return correctAnswer; }
+
+    public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
+
+    public String getDifficulty() { return difficulty; }
 
     public void setWrongAnswers(List<String> wrongAnswers) { this.wrongAnswers = wrongAnswers; }
 
