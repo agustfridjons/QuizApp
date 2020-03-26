@@ -35,23 +35,28 @@ public class SignUpActivity extends AppCompatActivity {
         mPassword = (EditText) findViewById(R.id.editPassword);
 
         mSignUpValid = (TextView) findViewById(R.id.login_valid);
-        mSignUpValid.setVisibility(View.GONE);
 
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mSignUpValid.setVisibility(View.GONE);
                 String name = mName.getText().toString().trim();
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
-
-                long val = db.addUser(username, password, name);
-                // TODO kannski breyta i dbmanager hvernig þetta er gert
-                if (val > 0) {
-                    Toast.makeText(SignUpActivity.this, "New user added yayy", Toast.LENGTH_SHORT).show();
-                    Intent moveToLogin = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(moveToLogin);
+                if (password.length() < 8){
+                    mSignUpValid.setText("Password needs to be at least 8 characters long.");
+                    mSignUpValid.setVisibility(View.VISIBLE);
+                } else if (false) { // ef við viljum confirm password
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                    long val = db.addUser(username, password, name);
+                    // TODO kannski breyta i dbmanager hvernig þetta er gert
+                    if (val > 0) {
+                        Toast.makeText(SignUpActivity.this, "New user added yayy", Toast.LENGTH_SHORT).show();
+                        Intent moveToLogin = new Intent(SignUpActivity.this, LoginActivity.class);
+                        startActivity(moveToLogin);
+                    } else {
+                        Toast.makeText(SignUpActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
