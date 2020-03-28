@@ -7,6 +7,10 @@ public class Question {
     String question, category, correctAnswer, difficulty;
     List<String> wrongAnswers;
 
+    public Question(String question, String category, String correctAnswer, String difficulty){
+
+    }
+
     public void setId(int id) {
         this.id = id;
     }

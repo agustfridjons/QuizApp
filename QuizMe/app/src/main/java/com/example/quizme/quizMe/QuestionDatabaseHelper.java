@@ -1,9 +1,12 @@
 package com.example.quizme.quizMe;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.List;
 
 public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
@@ -22,6 +25,13 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_CREATE ="create table question (id integer primary key autoincrement not null," +
             "questions text not null, category text not null, correctAnswer text not null, wrongAnswer text not null)";
 
+    private String[] question = {"What is the largest animal alive?"};
+    private String[] category = {"Animals"};
+    private String[] difficulty = {"Easy"};
+    private String[] correct = {"Blue Whale"};
+    private String[] wrong = {"Elephant"};
+
+
     public QuestionDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -31,6 +41,23 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         // TODO setja inn allar spurningarnar hérna
         db.execSQL(TABLE_CREATE);
         this.db = db;
+
+        makeQuestions();
+    }
+
+    private void makeQuestions() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        for (int i = 0; i < question.length; i++) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLUMN_QUESTIONS, question[i]);
+            contentValues.put(COLUMN_CATEGORY, category[i]);
+            contentValues.put(COLUMN_DIFFICULTY, difficulty[i]);
+            contentValues.put(COLUMN_CORRECTANSWER, correct[i]);
+            contentValues.put(COLUMN_WRONGANSWER, wrong[i]);
+            db.insert(TABLE_NAME, null, contentValues);
+        }
+        db.close();
     }
 
     @Override
@@ -40,11 +67,17 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public void getQuestion(String category, String difficulty) {
+    public void getQuestions(String category, String difficulty) {
         String[] columns = { COLUMN_ID };
         String selection = COLUMN_CATEGORY +"=?" + " and " + COLUMN_DIFFICULTY + "=?";
         String[] selectionArgs = { category, difficulty };
         Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        // Fetch questions from db
+
+        // TODO Make a list of questions and return
+        // Question[] q;
+        // return q
+
     }
 
     public Cursor getAllData() {
@@ -52,6 +85,9 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + TABLE_NAME,null);
         return res;
     }
+
+
+
 }
 
 

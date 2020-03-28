@@ -40,6 +40,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
 
     public long addUser(String username, String password, String name) {
         // TODO kannski gera þetta öðruvisi
+
         if (username.isEmpty() || password.isEmpty() || name.isEmpty()) {
             return 0;
         }
