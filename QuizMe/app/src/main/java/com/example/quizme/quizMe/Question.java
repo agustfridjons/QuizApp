@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Question {
     int id;
-    String question, category, correctAnswer, difficulty;
+    String question, category, correctAnswer, wrongAnswer, difficulty;
     List<String> wrongAnswers;
 
-    public Question(String question, String category, String correctAnswer, String difficulty){
+    public Question(String question, String correctAnswer, String wrongAnswer) {
 
     }
 
@@ -36,6 +36,10 @@ public class Question {
     public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
 
     public String getCorrectAnswer() { return correctAnswer; }
+
+    public void setWrongAnswer(String wrongAnswer) { this.wrongAnswer = wrongAnswer; }
+
+    public String getWrongAnswer() { return wrongAnswer; }
 
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
 

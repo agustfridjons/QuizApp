@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="@string/signup_text" />
+        android:text="@string/signup_text"
+        android:fontFamily="@font/baloo2" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,6 +24,7 @@
             android:id="@+id/editName"
             android:layout_width="107dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo2"
             android:hint="Name"
             android:inputType="text"
             android:labelFor="@id/editName" />
@@ -31,6 +33,7 @@
             android:id="@+id/editUsername"
             android:layout_width="107dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo2"
             android:hint="Username"
             android:inputType="text"
             android:labelFor="@id/editUsername" />
@@ -39,6 +42,7 @@
             android:id="@+id/editPassword"
             android:layout_width="107dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo2"
             android:hint="Password"
             android:inputType="textPassword"
             android:labelFor="@id/editPassword" />
@@ -54,14 +58,33 @@
             android:id="@+id/signup_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/signup_button" />
+            android:text="@string/signup_button"
+            android:fontFamily="@font/baloo2" />
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/account"
+        android:fontFamily="@font/baloo2"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp" />
+
+    <TextView
+        android:id="@+id/login_here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loginHere"
+        android:fontFamily="@font/baloo2"
+        android:paddingBottom="5dp"
+        android:textColor="#37539A"/>
 
     <TextView
         android:id="@+id/login_valid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/invalid_signup" />
+        android:text="@string/invalid_signup"
+        android:fontFamily="@font/baloo2" />
 
 </LinearLayout>

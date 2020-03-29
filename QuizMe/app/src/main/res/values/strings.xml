@@ -11,6 +11,9 @@
     <string name="view_friend_list_button">View Friend List</string>
     <string name="category">Choose a category</string>
     <string name="start_game">Start Game</string>
+    <string name="account">Already have an account?</string>
+    <string name="loginHere">Login here!</string>
+    <string name="answer">Answer</string>
 
     <string-array name="category_array">
         <item>Animals</item>

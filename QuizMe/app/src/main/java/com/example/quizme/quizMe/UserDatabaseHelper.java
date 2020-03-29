@@ -29,6 +29,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_CREATE);
         this.db = db;
+        System.out.println("USEEEER ONCREATE USER EG ER I ONCREATE BITCH");
     }
 
     @Override

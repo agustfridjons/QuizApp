@@ -18,19 +18,22 @@
             android:id="@+id/newgame_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_game_button" />
+            android:text="@string/new_game_button"
+            android:fontFamily="@font/baloo2_medium" />
 
         <Button
             android:id="@+id/gameresults_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/view_results_button" />
+            android:text="@string/view_results_button"
+            android:fontFamily="@font/baloo2_medium" />
 
         <Button
             android:id="@+id/friendlist_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/view_friend_list_button" />
+            android:text="@string/view_friend_list_button"
+            android:fontFamily="@font/baloo2_medium" />
     </LinearLayout>
 
 </LinearLayout>

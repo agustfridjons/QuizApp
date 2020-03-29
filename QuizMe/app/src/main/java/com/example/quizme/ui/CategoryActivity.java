@@ -2,6 +2,7 @@ package com.example.quizme.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,12 +32,18 @@ public class CategoryActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        String category = spinner.getSelectedItem().toString();
+        System.out.println("CATEGORY VALINN: " + category);
+
         mStartGameButton = (Button) findViewById(R.id.startgame_button);
 
         mStartGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO byrjar nyjan leik
+                Intent newGameIntent = new Intent(CategoryActivity.this, GameActivity.class);
+                newGameIntent.putExtra("Category", category);
+                startActivity(newGameIntent);
             }
         });
     }
