@@ -1,8 +1,13 @@
 package com.example.quizme.quizMe;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 public class User {
     int id;
     String username, password, name;
+    List<String> friendList;
 
     public void setId(int id) {
         this.id = id;
@@ -34,6 +39,14 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public void addFriend(String friendName){
+        friendList.add(friendName);
+    }
+
+    public void deleteFriend(int index){
+        friendList.remove(index);
     }
 
     // TODO gameHistory
