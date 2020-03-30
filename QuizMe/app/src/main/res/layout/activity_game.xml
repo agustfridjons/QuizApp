@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+<!--
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="274dp"
-        android:layout_height="552dp"
+        android:layout_width="234dp"
+        android:layout_height="317dp"
         android:layout_marginTop="76dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+-->
+
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/button_one"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="ýta hér" />
+        <Button
+            android:id="@+id/button_two"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="ýta hér" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

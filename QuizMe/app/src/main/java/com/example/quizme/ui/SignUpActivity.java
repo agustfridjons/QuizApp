@@ -20,7 +20,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Button mSignUpButton;
     private EditText mName, mUsername, mPassword;
-    private TextView mSignUpValid;
+    private TextView mSignUpValid, mLoginHere;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
         mPassword = (EditText) findViewById(R.id.editPassword);
 
         mSignUpValid = (TextView) findViewById(R.id.login_valid);
+        mLoginHere = (TextView) findViewById(R.id.login_here);
 
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +62,14 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+        mLoginHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveToLogin = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(moveToLogin);
             }
         });
     }

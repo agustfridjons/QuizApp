@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="@string/login_text" />
+        android:text="@string/login_text"
+        android:fontFamily="@font/baloo2_medium" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,6 +25,7 @@
             android:layout_width="107dp"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:fontFamily="@font/baloo2"
             android:hint="Username"
             android:labelFor="@id/editUsername" />
 
@@ -32,6 +34,7 @@
             android:layout_width="107dp"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:fontFamily="@font/baloo2"
             android:hint="Password"
             android:labelFor="@id/editPassword" />
 
@@ -46,13 +49,15 @@
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_button" />
+            android:text="@string/login_button"
+            android:fontFamily="@font/baloo2" />
 
         <Button
             android:id="@+id/signup_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/signup_button" />
+            android:text="@string/signup_button"
+            android:fontFamily="@font/baloo2" />
 
     </LinearLayout>
 
@@ -60,6 +65,7 @@
         android:id="@+id/login_valid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/invalid_login" />
+        android:text="@string/invalid_login"
+        android:fontFamily="@font/baloo2" />
 
 </LinearLayout>
