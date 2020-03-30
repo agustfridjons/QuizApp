@@ -43,7 +43,10 @@ public class SignUpActivity extends AppCompatActivity {
                 String name = mName.getText().toString().trim();
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
-                if (password.length() < 8){
+                if (db.checkUser(username, password)){
+                    mSignUpValid.setText("Username is not valid (already exists).");
+                    mSignUpValid.setVisibility(View.VISIBLE);
+                } else if (password.length() < 8){
                     mSignUpValid.setText("Password needs to be at least 8 characters long.");
                     mSignUpValid.setVisibility(View.VISIBLE);
                 } else if (false) { // ef við viljum confirm password
