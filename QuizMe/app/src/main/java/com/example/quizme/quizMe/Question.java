@@ -3,12 +3,14 @@ package com.example.quizme.quizMe;
 import java.util.List;
 
 public class Question {
-    int id;
-    String question, category, correctAnswer, wrongAnswer, difficulty;
-    List<String> wrongAnswers;
+    private int id;
+    private String question, category, correctAnswer, wrongAnswer, difficulty;
+    //List<String> wrongAnswers;
 
     public Question(String question, String correctAnswer, String wrongAnswer) {
-
+        this.question = question;
+        this.wrongAnswer = wrongAnswer;
+        this.correctAnswer = correctAnswer;
     }
 
     public void setId(int id) {
@@ -45,7 +47,7 @@ public class Question {
 
     public String getDifficulty() { return difficulty; }
 
-    public void setWrongAnswers(List<String> wrongAnswers) { this.wrongAnswers = wrongAnswers; }
+    //public void setWrongAnswers(List<String> wrongAnswers) { this.wrongAnswers = wrongAnswers; }
 
-    public List<String> setWrongAnswers() { return wrongAnswers; }
+    //public List<String> setWrongAnswers() { return wrongAnswers; }
 }
