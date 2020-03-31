@@ -38,11 +38,12 @@ public class GameActivity extends AppCompatActivity {
         mQuestion = (TextView) findViewById(R.id.question);
         // mUserAnswer = (EditText) findViewById(R.id.userAnswer); TODO fyrir hard mode
 
-        // Get chosen category from CategoryActivity
+        // Get chosen category from DifficultyActivity (CategoryActivity)
         String category = getIntent().getStringExtra("Category");
 
-        // TODO Tengja við difficulty activity
-
+        // Get chosen difficulty from DifficultyActivity
+        String difficulty = getIntent().getStringExtra("Difficulty");
+        
         // Get a list of Question objects from the database helper
         // TODO breyta í Question object
         //List<Question> questions = db.getQuestions(category, "Easy"); // TODO breyta í category

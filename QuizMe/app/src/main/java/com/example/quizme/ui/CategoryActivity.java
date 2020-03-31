@@ -33,7 +33,6 @@ public class CategoryActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
         String category = spinner.getSelectedItem().toString();
-        System.out.println("CATEGORY VALINN: " + category);
 
         mStartGameButton = (Button) findViewById(R.id.startgame_button);
 
@@ -41,7 +40,7 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO byrjar nyjan leik
-                Intent newGameIntent = new Intent(CategoryActivity.this, GameActivity.class);
+                Intent newGameIntent = new Intent(CategoryActivity.this, DifficultyActivity.class);
                 newGameIntent.putExtra("Category", category);
                 startActivity(newGameIntent);
             }

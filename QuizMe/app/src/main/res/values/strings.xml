@@ -14,6 +14,10 @@
     <string name="account">Already have an account?</string>
     <string name="loginHere">Login here!</string>
     <string name="answer">Answer</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="difficulty_level">Choose a difficulty level</string>
 
     <string-array name="category_array">
         <item>Animals</item>
