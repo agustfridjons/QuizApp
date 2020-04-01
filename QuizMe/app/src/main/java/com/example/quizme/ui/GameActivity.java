@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
 
         // Get chosen difficulty from DifficultyActivity
         String difficulty = getIntent().getStringExtra("Difficulty");
-        
+
         // Get a list of Question objects from the database helper
         // TODO breyta í Question object
         //List<Question> questions = db.getQuestions(category, "Easy"); // TODO breyta í category
