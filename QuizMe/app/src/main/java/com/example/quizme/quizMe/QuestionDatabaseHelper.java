@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
@@ -69,7 +70,7 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public String[][] getQuestions(String category, String difficulty) {
+    public Stack getQuestions(String category, String difficulty) {
         System.out.println("er að sækja spurningar");
         String[] columns = { COLUMN_QUESTION, COLUMN_CORRECTANSWER, COLUMN_WRONGANSWER };
         String selection = COLUMN_CATEGORY +"=?" + " and " + COLUMN_DIFFICULTY + "=?";
@@ -83,8 +84,6 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         // Fetch questions from db
         System.out.println("Cursor value: " + cursor);
 
-        // TODO Make a list of questions and return
-
         // To increase performance first get the index of each column in the cursor
         final int questionIndex = cursor.getColumnIndex(COLUMN_QUESTION);
         final int correctIndex = cursor.getColumnIndex(COLUMN_CORRECTANSWER);
@@ -94,26 +93,21 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
             // If moveToFirst() returns false then cursor is empty
             if (!cursor.moveToFirst()) {
-                String[][] newString = new String[0][];
-                return newString;
+                return null;
             }
 
-            final String[][] questions = new String[count][];
-            int i = 0;
+            Stack<Question> questions = new Stack<Question>();
+            int i = 0; // ekki notað eins og er
 
             do {
 
                 // Read the values of a row in the table using the indexes acquired above
-              //  final long id = cursor.getLong(idIndex);
+                // final long id = cursor.getLong(idIndex);
                 final String question = cursor.getString(questionIndex);
                 final String correct = cursor.getString(correctIndex);
                 final String wrong = cursor.getString(wrongIndex);
 
-                String[] data = { question, correct, wrong};
-
-                questions[i] = data;
-
-                // TODO bua til Question object ekki String[][ ---- questions.add(new Question(question, correct, wrong));
+                questions.push(new Question(question,correct,wrong));
                 i++;
             } while (cursor.moveToNext());
             return questions;
@@ -128,6 +122,30 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
 
     }
+
+    private static String[] splitString(String s){
+
+        String[] subStrings = new String[3];
+        int startIndex = 0;
+        int numSub = 0;
+        int i = 1;
+
+        while(numSub < 2 && i < s.length()){
+            if (s.charAt(i)=='.') {
+                subStrings[numSub] = s.substring(startIndex,i);
+                System.out.println(s.substring(startIndex,i));
+
+                i++;
+                startIndex = i;
+                numSub++;
+            }
+            i++;
+        }
+        subStrings[numSub] = s.substring(startIndex);
+        System.out.println(s.substring(startIndex));
+        return subStrings;
+    }
+
 
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();

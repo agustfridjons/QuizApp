@@ -20,7 +20,7 @@ public class DifficultyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_difficulty);
 
-        // // Get chosen category from CategoryActivity
+        // Get chosen category from CategoryActivity
         String category = getIntent().getStringExtra("Category");
 
         mEasy = (Button) findViewById(R.id.easy);

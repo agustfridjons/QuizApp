@@ -32,7 +32,8 @@ public class CategoryActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        String category = spinner.getSelectedItem().toString();
+        String category = spinner.getSelectedItem().toString(); // TODO laga, virkar ekki
+        System.out.println("VALINN CATEGORY: " + category);
 
         mStartGameButton = (Button) findViewById(R.id.startgame_button);
 
