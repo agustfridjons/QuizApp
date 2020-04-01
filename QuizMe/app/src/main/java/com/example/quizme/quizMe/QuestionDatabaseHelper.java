@@ -28,11 +28,11 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_CREATE ="create table question (id integer primary key autoincrement not null," +
             "question text not null, category text not null, difficulty text not null, correctAnswer text not null, wrongAnswer text not null)";
 
-    private String[] question = {"What is the largest animal alive?", "Er þetta spurning?", "Heiti ég Ásdís?"};
-    private String[] category = {"Animals", "Animals", "Sports"};
-    private String[] difficulty = {"Easy", "Easy", "Medium"};
-    private String[] correct = {"Blue Whale", "Já", "Fokk ja"};
-    private String[] wrong = {"Elephant", "Nei", "Kannski ekki....."};
+    private String[] question = {"What is animal?","What is the smallest animal alive?","What is the largest animal alive?", "Er þetta spurning?", "Heiti ég Ásdís?"};
+    private String[] category = {"Animals","Animals","Animals", "Animals", "Sports"};
+    private String[] difficulty = {"Easy","Easy","Easy", "Easy", "Medium"};
+    private String[] correct = {"ha?","The Paedophryne amauensis frog","Blue Whale", "Já", "Fokk ja"};
+    private String[] wrong = {"skil.ekki.neitt","Paedocypris fish.Bee Hummingbird.Pygmy Rabbit","Elephant.Giraffe.Colossal Squid", "Nei.Gæti verið.eða hvað", "Kannski ekki.nei Áskvís.öööööööööööööööööööööööööööööö langt svar"};
 
     public QuestionDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -105,8 +105,8 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
                 // final long id = cursor.getLong(idIndex);
                 final String question = cursor.getString(questionIndex);
                 final String correct = cursor.getString(correctIndex);
-                final String wrong = cursor.getString(wrongIndex);
-
+                final String[] wrong = splitString(cursor.getString(wrongIndex));
+                System.out.println("wrong lengt "+ wrong.length);
                 questions.push(new Question(question,correct,wrong));
                 i++;
             } while (cursor.moveToNext());
