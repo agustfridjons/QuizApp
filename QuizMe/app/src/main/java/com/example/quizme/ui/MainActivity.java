@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.quizme.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mNewGame, mGameResults, mViewFriendList, mLogIn;
+    private Button mNewGame, mGameResults, mViewFriendList;
+    private TextView mLoginText, mSignUpText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +23,10 @@ public class MainActivity extends AppCompatActivity {
         mNewGame = (Button) findViewById(R.id.newgame_button);
         mGameResults = (Button) findViewById(R.id.gameresults_button);
         mViewFriendList = (Button) findViewById(R.id.friendlist_button);
-        mLogIn = (Button) findViewById(R.id.login_button);
+        mLoginText = (TextView) findViewById(R.id.login_text);
+        mSignUpText = (TextView) findViewById(R.id.signup_text);
 
+        // Play a new game
         mNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,12 +35,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // View your friend list
+        mViewFriendList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent friendListIntent = new Intent(MainActivity.this, FriendListActivity.class);
+                startActivity(friendListIntent);
+            }
+        });
+
         // Go to login screen
-        mLogIn.setOnClickListener(new View.OnClickListener() {
+        mLoginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
+            }
+        });
+
+        // Go to sign up screen
+        mSignUpText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
+                startActivity(signUpIntent);
             }
         });
     }

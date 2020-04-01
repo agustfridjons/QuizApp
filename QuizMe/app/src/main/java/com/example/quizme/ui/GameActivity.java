@@ -46,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
 
         // Get chosen category from DifficultyActivity (CategoryActivity)
         String category = getIntent().getStringExtra("Category");
+        System.out.println("GameAct fær inn: " + category);
 
         // Get chosen difficulty from DifficultyActivity
         String difficulty = getIntent().getStringExtra("Difficulty");

@@ -18,6 +18,7 @@
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
     <string name="difficulty_level">Choose a difficulty level</string>
+    <string name="login">Login</string>
 
     <string-array name="category_array">
         <item>Animals</item>
