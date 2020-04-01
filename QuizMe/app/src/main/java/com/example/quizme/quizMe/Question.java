@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Question {
     private int id;
-    private String question, category, correctAnswer, wrongAnswer, difficulty;
-    //List<String> wrongAnswers;
+    private String question, category, correctAnswer, difficulty;
+    private String[] wrongAnswers;
 
-    public Question(String question, String correctAnswer, String wrongAnswer) {
+    public Question(String question, String correctAnswer, String[] wrongAnswers) {
         this.question = question;
-        this.wrongAnswer = wrongAnswer;
+        this.wrongAnswers = wrongAnswers;
         this.correctAnswer = correctAnswer;
     }
 
@@ -39,15 +39,11 @@ public class Question {
 
     public String getCorrectAnswer() { return correctAnswer; }
 
-    public void setWrongAnswer(String wrongAnswer) { this.wrongAnswer = wrongAnswer; }
-
-    public String getWrongAnswer() { return wrongAnswer; }
-
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
 
     public String getDifficulty() { return difficulty; }
 
-    //public void setWrongAnswers(List<String> wrongAnswers) { this.wrongAnswers = wrongAnswers; }
+    public void setWrongAnswers(String[] wrongAnswers) { this.wrongAnswers = wrongAnswers; }
 
-    //public List<String> setWrongAnswers() { return wrongAnswers; }
+    public String[] getWrongAnswers() { return wrongAnswers; }
 }
