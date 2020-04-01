@@ -27,7 +27,8 @@
             android:id="@+id/categories"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/baloo2" />
+            android:layout_margin="10dp"
+            android:fontFamily="@font/quicksand_medium" />
 
         <Button
             android:id="@+id/startgame_button"
