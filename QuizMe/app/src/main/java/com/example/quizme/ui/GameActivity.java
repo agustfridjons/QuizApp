@@ -44,10 +44,12 @@ public class GameActivity extends AppCompatActivity {
         mQuestionNumber.setText("Question number " + questionCounter);
         // mUserAnswer = (EditText) findViewById(R.id.userAnswer); TODO fyrir hard mode
 
-        // Get chosen category from CategoryActivity
+        // Get chosen category from DifficultyActivity (CategoryActivity)
         String category = getIntent().getStringExtra("Category");
+        System.out.println("GameAct fær inn: " + category);
 
-        // TODO Tengja við difficulty activity
+        // Get chosen difficulty from DifficultyActivity
+        String difficulty = getIntent().getStringExtra("Difficulty");
 
         // Get a list of Question objects from the database helper
 
@@ -81,9 +83,10 @@ public class GameActivity extends AppCompatActivity {
                     Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                     numCorrectAnswers++;
                     mPointsCounter.setText(" "+numCorrectAnswers);
-                }else{
+                } else {
                     Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
                 }
+
                 if (questions.isEmpty()) {
                     mQuestionNumber.setText("Questions done");
                     // TODO fara a results síðu
