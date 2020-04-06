@@ -1,11 +1,11 @@
 package com.example.quizme.quizMe;
 
-import java.util.List;
-
 public class Question {
     private int id;
+    private int number;
     private String question, category, correctAnswer, difficulty;
     private String[] wrongAnswers;
+    private int userAnswer;
 
     public Question(String question, String correctAnswer, String[] wrongAnswers) {
         this.question = question;
@@ -17,9 +17,13 @@ public class Question {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
+    public int getId() { return id; }
+
+    public void setGameNumber(int number) {
+        this.number = number;
     }
+
+    public int getGameNumber() { return number; }
 
     public void setQuestion(String question) {
         this.question = question;
@@ -46,4 +50,9 @@ public class Question {
     public void setWrongAnswers(String[] wrongAnswers) { this.wrongAnswers = wrongAnswers; }
 
     public String[] getWrongAnswers() { return wrongAnswers; }
+
+    public Integer getUserAnswers() { return userAnswer; }
+
+    public void setUserAnswers(Integer userAnswer) { this.userAnswer = userAnswer; }
+
 }

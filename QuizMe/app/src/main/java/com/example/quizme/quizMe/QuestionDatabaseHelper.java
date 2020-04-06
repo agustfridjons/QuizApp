@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 public class QuestionDatabaseHelper extends SQLiteOpenHelper {
@@ -22,17 +19,21 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_DIFFICULTY = "difficulty";
     private static final String COLUMN_CORRECTANSWER = "correctAnswer";
     private static final String COLUMN_WRONGANSWER = "wrongAnswer";
+    private static final String COLUMN_ANSWER = "userAnswer";
+    private static final String COLUMN_GAMENUMBER = "gameNumber";
 
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE ="create table question (id integer primary key autoincrement not null," +
-            "question text not null, category text not null, difficulty text not null, correctAnswer text not null, wrongAnswer text not null)";
+            "gamenumber integer not null, question text not null, category text not null, difficulty text not null, correctAnswer text not null, wrongAnswer text not null, userAnswer boolean not null)";
 
+    private Integer[] gamenumber = {1,1,1,1,1};
     private String[] question = {"What is animal?","What is the smallest animal alive?","What is the largest animal alive?", "Er þetta spurning?", "Heiti ég Ásdís?"};
     private String[] category = {"Animals","Animals","Animals", "Animals", "Sports"};
     private String[] difficulty = {"Easy","Easy","Easy", "Easy", "Medium"};
     private String[] correct = {"ha?","The Paedophryne amauensis frog","Blue Whale", "Já", "Fokk ja"};
     private String[] wrong = {"skil.ekki.neitt","Paedocypris fish.Bee Hummingbird.Pygmy Rabbit","Elephant.Giraffe.Colossal Squid", "Nei.Gæti verið.eða hvað", "Kannski ekki.nei Áskvís.öööööööööööööööööööööööööööööö langt svar"};
+    private Boolean[] userAnswer = {true, false, true, false, true};
 
     public QuestionDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,11 +55,13 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         System.out.println("komin í makeQuestions");
         for (int i = 0; i < question.length; i++) {
             ContentValues contentValues = new ContentValues();
+            contentValues.put(COLUMN_GAMENUMBER, gamenumber[i]);
             contentValues.put(COLUMN_QUESTION, question[i]);
             contentValues.put(COLUMN_CATEGORY, category[i]);
             contentValues.put(COLUMN_DIFFICULTY, difficulty[i]);
             contentValues.put(COLUMN_CORRECTANSWER, correct[i]);
             contentValues.put(COLUMN_WRONGANSWER, wrong[i]);
+            contentValues.put(COLUMN_ANSWER, userAnswer[i]);
             db.insert(TABLE_NAME, null, contentValues);
         }
     }
@@ -123,6 +126,22 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+
+  /*
+
+
+        try {
+            if (!cursor.moveToFirst()) {
+                return null;
+            }
+        } do {
+            final String correct = cursor.getString(correctIndex);
+            final String category = cursor.getString(categoryIndex);
+            final String answer = cursor.getString(answerIndex);
+        }
+        */
+
+
     private static String[] splitString(String s){
 
         String[] subStrings = new String[3];
@@ -152,8 +171,6 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + TABLE_NAME,null);
         return res;
     }
-
-
 
 }
 
