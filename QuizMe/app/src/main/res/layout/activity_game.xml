@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@drawable/milkyway"
     android:orientation="vertical">
 <!--
     <androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@
         android:id="@+id/question_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_medium"
         android:textSize="18sp" />
 
     <Space
@@ -33,6 +35,7 @@
         android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand_medium"
         android:textSize="18sp" />
 
     <Space
@@ -41,8 +44,9 @@
 
     <Button
         android:id="@+id/button_one"
-        android:layout_width="373dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
 
     <Space
@@ -51,8 +55,9 @@
 
     <Button
         android:id="@+id/button_two"
-        android:layout_width="373dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
 
     <Space
@@ -61,8 +66,9 @@
 
     <Button
         android:id="@+id/button_three"
-        android:layout_width="373dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
 
     <Space
@@ -71,8 +77,9 @@
 
     <Button
         android:id="@+id/button_four"
-        android:layout_width="373dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
 
     <Space
@@ -88,7 +95,9 @@
             android:id="@+id/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score =" />
+            android:fontFamily="@font/quicksand_bold"
+            android:textSize="18dp"
+            android:text="Score: " />
 
         <TextView
             android:id="@+id/points"

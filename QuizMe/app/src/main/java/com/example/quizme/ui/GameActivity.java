@@ -41,7 +41,7 @@ public class GameActivity extends AppCompatActivity {
         mPointsCounter = (TextView) findViewById(R.id.points);
 
         mPointsCounter.setText(" 0");
-        mQuestionNumber.setText("Question number " + questionCounter);
+        mQuestionNumber.setText(questionCounter + " / 7");
         // mUserAnswer = (EditText) findViewById(R.id.userAnswer); TODO fyrir hard mode
 
         // Get chosen category from DifficultyActivity (CategoryActivity)
@@ -53,7 +53,7 @@ public class GameActivity extends AppCompatActivity {
 
         // Get a list of Question objects from the database helper
 
-        Stack<Question> questions = db.getQuestions(category, "Easy"); // TODO breyta í category
+        Stack<Question> questions = db.getQuestions(category, difficulty);
         System.out.println("Lengd "+questions.size());
         Question currentQuestion = questions.pop();
         System.out.println("FYRSTA SPURNING ER: " + currentQuestion.getQuestion());

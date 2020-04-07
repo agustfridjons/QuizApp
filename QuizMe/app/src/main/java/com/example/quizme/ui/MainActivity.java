@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
         mLoginText = (TextView) findViewById(R.id.login_text);
         mSignUpText = (TextView) findViewById(R.id.signup_text);
 
+        // Get username from LoginActivity
+        String username = getIntent().getStringExtra("Username");
+
         // Play a new game
         mNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
