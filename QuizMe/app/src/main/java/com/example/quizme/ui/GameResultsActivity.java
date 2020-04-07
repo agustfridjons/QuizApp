@@ -38,7 +38,7 @@ public class GameResultsActivity extends AppCompatActivity {
         ArrayList<GameResults> gameresults = db.getGameResults(1);
 
         TableLayout mGameResultsTable = (TableLayout) findViewById(R.id.gameresults_table);
-        mGameResultsTable.setBackgroundColor(Color.WHITE);
+        mGameResultsTable.setBackgroundColor(Color.parseColor("#CCE5FF"));
         TableRow tbrow0 = new TableRow(this);
         TextView tv0 = new TextView(this);
         tv0.setText("Question nr.");
@@ -68,11 +68,11 @@ public class GameResultsActivity extends AppCompatActivity {
             TextView t2v = new TextView(this);
             if (userAnswer == 0){
                 t2v.setText("Correct");
-                tbrow.setBackgroundColor(Color.GREEN);
+                tbrow.setBackgroundColor(Color.parseColor("#99FF99"));
 
             } else if (userAnswer == 1){
                 t2v.setText("Incorrect");
-                tbrow.setBackgroundColor(Color.RED);
+                tbrow.setBackgroundColor(Color.parseColor("#FF9999"));
 
             }
             t2v.setTextColor(Color.BLACK);
