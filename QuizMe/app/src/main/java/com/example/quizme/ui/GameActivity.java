@@ -3,7 +3,6 @@ package com.example.quizme.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quizme.R;
 import com.example.quizme.quizMe.Question;
 import com.example.quizme.quizMe.QuestionDatabaseHelper;
-import com.example.quizme.quizMe.UserDatabaseHelper;
 
 import java.util.Stack;
 
@@ -57,6 +55,7 @@ public class GameActivity extends AppCompatActivity {
         System.out.println("Lengd "+questions.size());
         Question currentQuestion = questions.pop();
         System.out.println("FYRSTA SPURNING ER: " + currentQuestion.getQuestion());
+
 
 
         String[] randomAnswers = randomizeAnswers(currentQuestion.getCorrectAnswer(),currentQuestion.getWrongAnswers());

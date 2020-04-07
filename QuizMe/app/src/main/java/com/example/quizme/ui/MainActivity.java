@@ -64,5 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(signUpIntent);
             }
         });
+
+        mGameResults.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent gameResultsIntent = new Intent(MainActivity.this, GameResultsActivity.class);
+                startActivity(gameResultsIntent);
+            }
+        });
     }
 }

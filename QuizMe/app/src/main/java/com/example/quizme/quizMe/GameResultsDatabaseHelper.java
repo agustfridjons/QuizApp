@@ -6,20 +6,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "gameResults.db";
-    private static final String TABLE_NAME = "gameResults";
+    private static final String DATABASE_NAME = "question.db";
+    private static final String TABLE_NAME = "question";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_SCORE = "score";
     private static final String COLUMN_CATEGORY = "category";
+    private static final String COLUMN_CORRECTANSWER = "correctAnswer";
+    private static final String COLUMN_ANSWER = "userAnswer";
+    private static final String COLUMN_GAMENUMBER = "gameNumber";
+
+
     // TODO private static final String COLUMN_CORRECTLYANSWERED = "correctlyAnswered";
 
     SQLiteDatabase db;
 
-    private static final String TABLE_CREATE = "create table gameResults (id integer primary key autoincrement not null," +
-            "score text not null, category text not null)";
+ //   private static final String TABLE_CREATE = "create table gameResults (id integer primary key autoincrement not null," +
+ //           "score text not null, category text not null)";
 
     public GameResultsDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,7 +34,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TABLE_CREATE);
+      //  db.execSQL(TABLE_CREATE);
         this.db = db;
     }
 
@@ -52,13 +59,42 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public void checkGameResults(String score, String category){
-        String[] columns = { COLUMN_ID };
-        SQLiteDatabase db = getReadableDatabase();
-        String selection = COLUMN_SCORE + "=?" + COLUMN_CATEGORY + "=?";
-        String[] selectionArgs = { score, category };
-        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+    public ArrayList<GameResults> getGameResults(Integer gamenumber) {
+        String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_ANSWER};
+        String selection = COLUMN_GAMENUMBER + "=?";
+        String gamenumberString = gamenumber.toString();
+        String[] selectionArgs = {gamenumberString};
+        String selectionQuery = "SELECT * FROM " + TABLE_NAME;
+        System.out.println("SELECTION: " + selection + "SELECTION_ARGS: " + selectionArgs);
 
+        db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectionQuery, null);
+        //Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+
+        final int correctIndex = cursor.getColumnIndex(COLUMN_CORRECTANSWER);
+        final int categoryIndex = cursor.getColumnIndex(COLUMN_CATEGORY);
+        final int answerIndex = cursor.getColumnIndex(COLUMN_ANSWER);
+
+
+        try {
+            if (!cursor.moveToFirst()) {
+                return null;
+            }
+            ArrayList<GameResults> gameresults = new ArrayList<>();
+            int i = 0;
+            do {
+                final String correct = cursor.getString(correctIndex);
+                final String category = cursor.getString(categoryIndex);
+                final Integer answer = cursor.getInt(answerIndex);
+                gameresults.add(new GameResults(category, answer, correct));
+                i++;
+            } while (cursor.moveToNext());
+            return gameresults;
+
+        } finally {
+            cursor.close();
+        }
     }
 
     public Cursor getAllData() {
