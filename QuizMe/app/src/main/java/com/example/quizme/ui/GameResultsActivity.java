@@ -44,10 +44,7 @@ public class GameResultsActivity extends AppCompatActivity {
         tv0.setText("Question nr.");
         tv0.setTextColor(Color.BLACK);
         tbrow0.addView(tv0);
-        TextView tv1 = new TextView(this);
-        tv1.setText("Correct/Inccorect");
-        tv1.setTextColor(Color.BLACK);
-        tbrow0.addView(tv1);
+
         TextView tv3 = new TextView(this);
         tv3.setText(" Correct Answer ");
         tv3.setTextColor(Color.BLACK);
@@ -58,23 +55,21 @@ public class GameResultsActivity extends AppCompatActivity {
             Integer userAnswer = gameresults.get(i).getUserAnswers();
 
             String correctAnswer = gameresults.get(i).getCorrectAnswer();
-
             TableRow tbrow = new TableRow(this);
+            if (userAnswer == 0){
+                tbrow.setBackgroundColor(Color.parseColor("#99FF99"));
+
+            } else if (userAnswer == 1){
+                tbrow.setBackgroundColor(Color.parseColor("#FF9999"));
+
+            }
             TextView t1v = new TextView(this);
             t1v.setText("" + i) ;
             t1v.setTextColor(Color.BLACK);
             t1v.setGravity(Gravity.CENTER);
             tbrow.addView(t1v);
             TextView t2v = new TextView(this);
-            if (userAnswer == 0){
-                t2v.setText("Correct");
-                tbrow.setBackgroundColor(Color.parseColor("#99FF99"));
 
-            } else if (userAnswer == 1){
-                t2v.setText("Incorrect");
-                tbrow.setBackgroundColor(Color.parseColor("#FF9999"));
-
-            }
             t2v.setTextColor(Color.BLACK);
             t2v.setGravity(Gravity.CENTER);
             tbrow.addView(t2v);
