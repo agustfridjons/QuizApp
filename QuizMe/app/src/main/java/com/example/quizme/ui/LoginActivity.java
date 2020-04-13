@@ -5,15 +5,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.quizme.R;
 import com.example.quizme.quizMe.SessionManager;
 import com.example.quizme.quizMe.UserDatabaseHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -69,7 +74,29 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(signUpIntent);
             }
         });
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Intent a = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(a);
+                        break;
+                    case R.id.nav_friends:
+                        Intent b = new Intent(LoginActivity.this, FriendListActivity.class);
+                        startActivity(b);
+                        break;
+                    case R.id.nav_results:
+                        Intent c = new Intent(LoginActivity.this, GameResultsActivity.class);
+                        startActivity(c);
+                        break;
+                }
+                return false;
+            }
+        });
 
     }
 }
