@@ -1,18 +1,22 @@
 package com.example.quizme.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizme.R;
 import com.example.quizme.quizMe.GameResults;
 import com.example.quizme.quizMe.GameResultsDatabaseHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -29,6 +33,30 @@ public class GameResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_results);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Intent a = new Intent(GameResultsActivity.this, MainActivity.class);
+                        startActivity(a);
+                        break;
+                    case R.id.nav_friends:
+                        Intent b = new Intent(GameResultsActivity.this, FriendListActivity.class);
+                        startActivity(b);
+                        break;
+                    case R.id.nav_results:
+                        Intent c = new Intent(GameResultsActivity.this, GameResultsActivity.class);
+                        startActivity(c);
+                        break;
+                }
+                return false;
+            }
+        });
 
         init();
     }

@@ -3,6 +3,7 @@ package com.example.quizme.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,7 +11,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.quizme.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CategoryActivity extends Activity implements AdapterView.OnItemSelectedListener {
     private static final String[] ALL_CATEGORIES = {
@@ -53,6 +57,30 @@ public class CategoryActivity extends Activity implements AdapterView.OnItemSele
                     newGameIntent.putExtra("Category", mCategory);
                     startActivity(newGameIntent);
                 }
+            }
+        });
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Intent a = new Intent(CategoryActivity.this, MainActivity.class);
+                        startActivity(a);
+                        break;
+                    case R.id.nav_friends:
+                        Intent b = new Intent(CategoryActivity.this, FriendListActivity.class);
+                        startActivity(b);
+                        break;
+                    case R.id.nav_results:
+                        Intent c = new Intent(CategoryActivity.this, GameResultsActivity.class);
+                        startActivity(c);
+                        break;
+                }
+                return false;
             }
         });
     }

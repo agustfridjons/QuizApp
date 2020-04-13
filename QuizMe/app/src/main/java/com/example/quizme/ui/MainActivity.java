@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                System.out.println(menuItem);
-                System.out.println("virkar plz?????");
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         Intent a = new Intent(MainActivity.this, MainActivity.class);

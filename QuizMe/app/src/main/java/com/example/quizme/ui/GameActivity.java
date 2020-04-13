@@ -1,16 +1,20 @@
 package com.example.quizme.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizme.R;
 import com.example.quizme.quizMe.Question;
 import com.example.quizme.quizMe.QuestionDatabaseHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Stack;
 
@@ -114,6 +118,30 @@ public class GameActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(GameActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
             }*/
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Intent a = new Intent(GameActivity.this, MainActivity.class);
+                        startActivity(a);
+                        break;
+                    case R.id.nav_friends:
+                        Intent b = new Intent(GameActivity.this, FriendListActivity.class);
+                        startActivity(b);
+                        break;
+                    case R.id.nav_results:
+                        Intent c = new Intent(GameActivity.this, GameResultsActivity.class);
+                        startActivity(c);
+                        break;
+                }
+                return false;
+            }
+        });
 
     }
 

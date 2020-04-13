@@ -1,51 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/paleblue"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ui.DifficultyActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="@string/difficulty_level"
         android:fontFamily="@font/quicksand_bold"
+        android:text="@string/difficulty_level"
         android:textColor="#ffffff"
         android:textSize="22dp" />
 
 
-    <Button
-        android:id="@+id/easy"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/easy"
-        android:background="@drawable/button_custom_white"
-        android:fontFamily="@font/quicksand_bold"
-        android:textSize="20dp" />
+        <Button
+            android:id="@+id/easy"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_custom_white"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="@string/easy"
+            android:textSize="20dp" />
 
     <Button
         android:id="@+id/medium"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="@string/medium"
         android:background="@drawable/button_custom_white"
         android:fontFamily="@font/quicksand_bold"
+        android:text="@string/medium"
         android:textSize="20dp" />
 
     <Button
         android:id="@+id/hard"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="@string/hard"
         android:background="@drawable/button_custom_white"
         android:fontFamily="@font/quicksand_bold"
+        android:text="@string/hard"
         android:textSize="20dp" />
-</LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-3dp"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:menu="@menu/bottom_nav_menu" />
+</RelativeLayout>
