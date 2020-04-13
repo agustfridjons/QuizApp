@@ -1,18 +1,22 @@
 package com.example.quizme.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
 import com.example.quizme.R;
 import com.example.quizme.ui.Adapters.FriendListAdapter;
 import com.example.quizme.ui.items.FriendListItem;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -46,6 +50,29 @@ public class FriendListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Intent a = new Intent(FriendListActivity.this, MainActivity.class);
+                        startActivity(a);
+                        break;
+                    case R.id.nav_friends:
+                        Intent b = new Intent(FriendListActivity.this, FriendListActivity.class);
+                        startActivity(b);
+                        break;
+                    case R.id.nav_results:
+                        Intent c = new Intent(FriendListActivity.this, GameResultsActivity.class);
+                        startActivity(c);
+                        break;
+                }
+                return false;
             }
         });
     }

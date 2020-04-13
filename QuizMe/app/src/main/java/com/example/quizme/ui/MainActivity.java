@@ -1,14 +1,17 @@
 package com.example.quizme.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.quizme.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,6 +73,29 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent gameResultsIntent = new Intent(MainActivity.this, GameResultsActivity.class);
                 startActivity(gameResultsIntent);
+            }
+        });
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Intent a = new Intent(MainActivity.this, MainActivity.class);
+                        startActivity(a);
+                        break;
+                    case R.id.nav_friends:
+                        Intent b = new Intent(MainActivity.this, FriendListActivity.class);
+                        startActivity(b);
+                        break;
+                    case R.id.nav_results:
+                        Intent c = new Intent(MainActivity.this, GameResultsActivity.class);
+                        startActivity(c);
+                        break;
+                }
+                return false;
             }
         });
     }

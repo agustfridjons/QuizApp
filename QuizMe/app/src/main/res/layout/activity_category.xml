@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/paleblue"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/paleblue"
     tools:context=".ui.CategoryActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <TextView
@@ -19,8 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/category"
             android:fontFamily="@font/quicksand_bold"
+            android:text="@string/category"
             android:textColor="#ffffff"
             android:textSize="22dp" />
 
@@ -36,10 +37,20 @@
             android:id="@+id/startgame_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/start_game"
             android:background="@drawable/button_custom_white"
             android:fontFamily="@font/quicksand_bold"
+            android:text="@string/start_game"
             android:textSize="20dp" />
     </LinearLayout>
 
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-3dp"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>
