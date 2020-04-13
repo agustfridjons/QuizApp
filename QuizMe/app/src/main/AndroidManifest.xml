@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.DifficultyActivity" />
         <activity android:name=".ui.FriendListActivity" />
+        <activity android:name=".ui.AddFriendActivity" />
         <activity android:name=".ui.CategoryActivity" />
         <activity android:name=".ui.SignUpActivity" />
         <activity android:name=".ui.LoginActivity" />

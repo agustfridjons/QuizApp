@@ -12,11 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.quizme.quizMe.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button mNewGame, mGameResults, mViewFriendList;
     private TextView mLoginText, mSignUpText;
+    private SessionManager mSession;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
         mViewFriendList = (Button) findViewById(R.id.friendlist_button);
         mLoginText = (TextView) findViewById(R.id.login_text);
         mSignUpText = (TextView) findViewById(R.id.signup_text);
+
+        mSession = new SessionManager(MainActivity.this);
+
+        if(mSession.getSession() != null){
+            mLoginText.setText("Log Out");
+            mSignUpText.setVisibility(View.GONE);
+        }
 
         // Play a new game
         mNewGame.setOnClickListener(new View.OnClickListener() {
@@ -47,12 +58,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Go to login screen
+        // Go to login screen or logout
         mLoginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
+                if (mLoginText.getText().equals("Log Out")) {
+                    mSession.removeSession();
+                    mLoginText.setText("Log in");
+                    mSignUpText.setVisibility(View.VISIBLE);
+                } else {
+                    Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(loginIntent);
+                }
             }
         });
 

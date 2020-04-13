@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizme.R;
-import com.example.quizme.ui.FriendListActivity;
 import com.example.quizme.ui.items.FriendListItem;
 
 import java.util.ArrayList;
@@ -23,7 +22,9 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
     // Used for event listeners evoked on the list
     public interface OnItemClickListener {
-        void onItemClick(int position, boolean delete);
+        void onItemClick(int position);
+        void onDeleteClick(int position);
+        void onChallengeClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -32,7 +33,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
 
 
     public static class FriendListViewHolder extends RecyclerView.ViewHolder{
-        public ImageView mDeleteButton;
+        public ImageView mDeleteButton, mChallengeNotification;
         public TextView mUserName;
         public Button mChallengeButton;
 
@@ -40,8 +41,11 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         public FriendListViewHolder(View itemView, OnItemClickListener listener ){
             super(itemView);
             mDeleteButton = (ImageView) itemView.findViewById(R.id.delete);
+            mChallengeNotification = (ImageView) itemView.findViewById(R.id.challenge_notification);
             mChallengeButton = (Button) itemView.findViewById(R.id.challenge_button);
             mUserName = (TextView) itemView.findViewById(R.id.user_textView);
+
+
 
             // If the challenge button is pressed we challenge a friend
             mChallengeButton.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +54,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                     if (listener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            listener.onItemClick(position, false);
+                            listener.onChallengeClick(position);
                         }
                     }
                 }
@@ -64,7 +68,22 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             //Sendi true inn í Activityið ef ýtt var á delete takkann
-                            listener.onItemClick(position, true);
+                            listener.onDeleteClick(position);
+                        }
+                    }
+                }
+            });
+
+            // Challenger handler
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            //Sendi true inn í Activityið ef ýtt Card í listanum ef það inniheldur challenge notification
+                            if(mChallengeNotification.getVisibility() == View.VISIBLE)
+                                listener.onItemClick(position);
                         }
                     }
                 }
@@ -89,8 +108,10 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
     @Override
     public void onBindViewHolder(@NonNull FriendListViewHolder holder, int position) {
         FriendListItem currentItem = mFriendList.get(position);
-
+        holder.mChallengeNotification.setVisibility(View.GONE);
         holder.mUserName.setText(currentItem.getFriendName());
+        if(currentItem.isChallenge())
+            holder.mChallengeNotification.setVisibility(View.VISIBLE);
     }
 
     @Override

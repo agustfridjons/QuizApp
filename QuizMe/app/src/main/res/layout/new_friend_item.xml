@@ -1,6 +1,5 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
@@ -28,21 +27,8 @@
             android:textColor="#FFFFFF"
             android:textSize="22sp" />
 
-        <Button
-            android:id="@+id/challenge_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toStartOf="@+id/delete"
-            android:background="@drawable/button_custom_white"
-            android:fontFamily="@font/quicksand_bold"
-            android:text="Challenge"
-            android:textSize="12sp" />
-
         <ImageView
-            android:id="@+id/delete"
+            android:id="@+id/add"
             android:layout_width="41dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -50,16 +36,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/button_custom_white"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-
-        <ImageView
-            android:id="@+id/challenge_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="4dp"
-            app:srcCompat="@android:drawable/ic_notification_overlay"
-            tools:visibility="invisible" />
+            app:srcCompat="@android:drawable/ic_menu_add" />
 
 
     </RelativeLayout>
