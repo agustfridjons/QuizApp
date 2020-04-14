@@ -1,5 +1,8 @@
 package com.example.quizme.ui;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quizme.R;
+import com.example.quizme.quizMe.SessionManager;
 import com.example.quizme.quizMe.UserDatabaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mLoginButton, mSignUpButton;
     private EditText mUsername, mPassword;
     private TextView mLoginValid;
+    private SessionManager mSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         mLoginValid = (TextView) findViewById(R.id.login_valid);
         mLoginValid.setVisibility(View.GONE);
 
+        mSession = new SessionManager(LoginActivity.this);
+
+
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 Boolean res = db.checkUser(username, password);
 
                 if (res == true) {
+                    mSession.saveSession(username);
                     Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                     loginIntent.putExtra("Username", username);

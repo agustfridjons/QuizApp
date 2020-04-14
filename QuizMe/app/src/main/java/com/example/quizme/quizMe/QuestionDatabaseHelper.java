@@ -46,7 +46,7 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
 
     private void makeQuestions(SQLiteDatabase db) {
         // Gets the data repository in write mode
-      //  SQLiteDatabase db = this.getWritableDatabase();
+        //  SQLiteDatabase db = this.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -90,7 +90,6 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         final int wrongIndex = cursor.getColumnIndex(COLUMN_WRONGANSWER);
 
         try {
-
             // If moveToFirst() returns false then cursor is empty
             if (!cursor.moveToFirst()) {
                 return null;
@@ -108,7 +107,7 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
                 final String[] wrong = splitString(cursor.getString(wrongIndex));
                 System.out.println("wrong lengt "+ wrong.length);
                 questions.push(new Question(question,correct,wrong));
-                i++;
+                i++; //ekki notað
             } while (cursor.moveToNext());
             return questions;
 
@@ -120,33 +119,17 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
             db.close();
         }
 
-
     }
-
-
-  /*
-
-
-        try {
-            if (!cursor.moveToFirst()) {
-                return null;
-            }
-        } do {
-            final String correct = cursor.getString(correctIndex);
-            final String category = cursor.getString(categoryIndex);
-            final String answer = cursor.getString(answerIndex);
-        }
-        */
 
 
     private static String[] splitString(String s){
 
-        String[] subStrings = new String[3];
+        String[] subStrings = new String[7];
         int startIndex = 0;
         int numSub = 0;
         int i = 1;
 
-        while(numSub < 2 && i < s.length()){
+        while(numSub < subStrings.length-1 && i < s.length()){
             if (s.charAt(i)=='.') {
                 subStrings[numSub] = s.substring(startIndex,i);
                 System.out.println(s.substring(startIndex,i));

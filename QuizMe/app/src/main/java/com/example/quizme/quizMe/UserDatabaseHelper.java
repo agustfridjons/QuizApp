@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 
 public class UserDatabaseHelper extends SQLiteOpenHelper {
 
@@ -19,11 +20,12 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_FRIENDS = "friends";
+    private static final String COLUMN_CHALLENGES = "challenges";
 
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE = "create table user (id integer primary key autoincrement not null," +
-            "username text not null, password text not null, name text not null, friends text)";
+            "username text not null, password text not null, name text not null, friends text, challenges text)";
 
     public UserDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +36,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CREATE);
         this.db = db;
         System.out.println("USEEEER ONCREATE USER EG ER I ONCREATE BITCH");
+        System.out.println("BIIIIIIIITCH");
     }
 
     @Override
@@ -50,7 +53,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
             return 0;
         }
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_USERNAME, username);
         contentValues.put(COLUMN_PASSWORD, encryptString(password));
@@ -62,7 +65,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
 
     public boolean checkUser(String username, String password) {
         String[] columns = { COLUMN_ID };
-        SQLiteDatabase db = getReadableDatabase();
+        db = getReadableDatabase();
         String selection = COLUMN_USERNAME + "=?" + " and " + COLUMN_PASSWORD + "=?";
 
         // Encrypting password to find the right hashed password
@@ -71,8 +74,6 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         String[] selectionArgs = { username, password };
         Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
         int count = cursor.getCount();
-        //if (count>0) eh að reyna að skilja cursor
-            //System.out.println("column count: "+cursor.getCount()+ /*" column count: "+cursor.getColumnIndex(COLUMN_NAME) */" index "+cursor.getColumnIndex(COLUMN_USERNAME)+": "+cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME))/*+" index 1: "+cursor.getString(1)+" index 2: "+cursor.getString(2)*/);
         cursor.close();
         db.close();
 
@@ -83,8 +84,144 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public static void addFriend(String friend){
-        //eftir að útfæra þarf að vita hvernig cursor virkar
+
+    public void addFriend(String friendUsername, String sessionUsername) {
+        String[] columns = {COLUMN_FRIENDS};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {sessionUsername};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        ContentValues contentValues = new ContentValues();
+        if (!cursor.moveToFirst()) {
+            System.out.println("Cusror tómur TÍK");
+            contentValues.put(COLUMN_FRIENDS,friendUsername+".");
+        }else{
+            contentValues.put(COLUMN_FRIENDS, cursor.getString(cursor.getColumnIndex(COLUMN_FRIENDS))+friendUsername+".");
+        }
+
+        db = getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+        cursor.close();
+        db.close();
+    }
+
+    public ArrayList<String> getFriendList(String username){
+        String[] columns = {COLUMN_FRIENDS};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {username};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        if (!cursor.moveToFirst()) {
+            System.out.println("cursor tómur");
+            return null;
+        }
+
+        String friends = cursor.getString(cursor.getColumnIndex(COLUMN_FRIENDS));
+        cursor.close();
+        db.close();
+
+        return splitString(friends);
+    }
+
+    public void addChallenger(String friendUsername, String sessionUsername) {
+        String[] columns = {COLUMN_CHALLENGES};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {sessionUsername};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        ContentValues contentValues = new ContentValues();
+        if (!cursor.moveToFirst()) {
+            System.out.println("Cusror tómur TÍK");
+            contentValues.put(COLUMN_CHALLENGES,friendUsername+".");
+        }else{
+            contentValues.put(COLUMN_CHALLENGES, cursor.getString(cursor.getColumnIndex(COLUMN_CHALLENGES))+friendUsername+".");
+        }
+
+        db = getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+        cursor.close();
+        db.close();
+    }
+
+    public ArrayList<String> getChallenges(String username) {
+        String[] columns = {COLUMN_CHALLENGES};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {username};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        if (!cursor.moveToFirst()) {
+            System.out.println("Cusror tómur TÍK");
+            return null;
+        }
+        String challenges = cursor.getString(cursor.getColumnIndex(COLUMN_CHALLENGES));
+
+        cursor.close();
+        db.close();
+
+        return splitString(challenges);
+    }
+
+    public ArrayList<String> searchUsers(String key){
+        String[] columns = {COLUMN_NAME};
+        db = getReadableDatabase();
+        String selection = COLUMN_NAME + " like ?";
+        String[] selectionArgs = {"%"+key+"%"};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        System.out.println("CURSOR COUNT: " + cursor.getCount());
+
+        // Fetch questions from db
+        System.out.println("Cursor value: " + cursor);
+
+        int nameIndex = cursor.getColumnIndex(COLUMN_NAME);
+
+        ArrayList<String> names = new ArrayList<>();
+        try {
+
+            // If moveToFirst() returns false then cursor is empty
+            if (!cursor.moveToFirst()) {
+                System.out.println("cursor tómur");
+                return null;
+            }
+
+            do {
+                // Read the values of a row in the table using the indexes acquired above
+                final String name = cursor.getString(nameIndex);
+                names.add(name);
+            } while (cursor.moveToNext());
+            return names;
+
+        } finally {
+            // Close the Cursor to avoid memory leaks
+            cursor.close();
+
+            // Close the database
+            db.close();
+        }
+
+    }
+
+    private static ArrayList<String> splitString(String s){
+
+        ArrayList<String> subStrings = new ArrayList<>();
+
+        if(s==null)
+            return subStrings;
+
+        int startIndex = 4;
+
+        for (int i = 4; i < s.length(); i++) {
+            if (s.charAt(i)=='.') {
+                subStrings.add(s.substring(startIndex,i));
+                System.out.println(s.substring(startIndex,i));
+                i++;
+                startIndex = i;
+            }
+        }
+        return subStrings;
     }
 
     public String encryptString(String s){
@@ -96,7 +233,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return s;
     }
 
-    //This function its fount on the web
+    //Hashig passords with MD5 library
     public static String encryptMD5(byte[] data) throws Exception {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
         md5.update(data);
@@ -117,4 +254,6 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + TABLE_NAME,null);
         return res;
     }
+
+
 }
