@@ -16,7 +16,6 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_QUESTION = "question";
     private static final String COLUMN_CATEGORY = "category";
-    private static final String COLUMN_DIFFICULTY = "difficulty";
     private static final String COLUMN_CORRECTANSWER = "correctAnswer";
     private static final String COLUMN_WRONGANSWER = "wrongAnswer";
     private static final String COLUMN_ANSWER = "userAnswer";
@@ -25,15 +24,14 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE ="create table question (id integer primary key autoincrement not null," +
-            "gamenumber integer not null, question text not null, category text not null, difficulty text not null, correctAnswer text not null, wrongAnswer text not null, userAnswer boolean not null)";
+            "gamenumber integer not null, question text not null, category text not null, correctAnswer text not null, wrongAnswer text not null, userAnswer boolean not null)";
 
-    private Integer[] gamenumber = {1,1,1,1,1};
-    private String[] question = {"What is animal?","What is the smallest animal alive?","What is the largest animal alive?", "Er þetta spurning?", "Heiti ég Ásdís?"};
-    private String[] category = {"Animals","Animals","Animals", "Animals", "Sports"};
-    private String[] difficulty = {"Easy","Easy","Easy", "Easy", "Medium"};
-    private String[] correct = {"ha?","The Paedophryne amauensis frog","Blue Whale", "Já", "Fokk ja"};
-    private String[] wrong = {"skil.ekki.neitt","Paedocypris fish.Bee Hummingbird.Pygmy Rabbit","Elephant.Giraffe.Colossal Squid", "Nei.Gæti verið.eða hvað", "Kannski ekki.nei Áskvís.öööööööööööööööööööööööööööööö langt svar"};
-    private Boolean[] userAnswer = {true, false, true, false, true};
+    private Integer[] gamenumber = {1,1,1,1,1,1,1,1,1,1};
+    private String[] question = {"What is the smallest animal alive?","What is the largest animal alive?","What is the slowest animal?","A snail can sleep for how many years?","A group of lions is known as?","Which bird is a universal symbol of peace?","Which animal never sleeps?","Which animal has the highest blood pressure?","A group of hedgehogs is known as?","The fingerprints of which animal extremely resembles the humans?"};
+    private String[] category = {"Animals","Animals","Animals","Animals","Animals","Animals","Animals","Animals","Animals","Animals"};
+    private String[] correct = {"The Paedophryne amauensis frog","Blue Whale","Sloth","3 years","A pride","Dove","Bullfrog","Giraffe","Pickles","Koala"};
+    private String[] wrong = {"Paedocypris fish.Bee Hummingbird.Pygmy Rabbit","Elephant.Giraffe.Colossal Squid","Turtle.Panda.Zebra","2 years.5 years.0,5 years","Shoal.A flock.A herd","Pigeon.Eagle.Ostrich","Slug.Wasps.Cockroach","Killer whale.Meerkat.Bat","Cete.Gang.Cloud","Panda.Orangutan.Chimpanzee"};
+    private Boolean[] userAnswer = {true, false, true, false, true, false, true, false, true, false};
 
     public QuestionDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,7 +56,6 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(COLUMN_GAMENUMBER, gamenumber[i]);
             contentValues.put(COLUMN_QUESTION, question[i]);
             contentValues.put(COLUMN_CATEGORY, category[i]);
-            contentValues.put(COLUMN_DIFFICULTY, difficulty[i]);
             contentValues.put(COLUMN_CORRECTANSWER, correct[i]);
             contentValues.put(COLUMN_WRONGANSWER, wrong[i]);
             contentValues.put(COLUMN_ANSWER, userAnswer[i]);
@@ -73,11 +70,11 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public Stack getQuestions(String category, String difficulty) {
+    public Stack getQuestions(String category) {
         System.out.println("er að sækja spurningar");
         String[] columns = { COLUMN_QUESTION, COLUMN_CORRECTANSWER, COLUMN_WRONGANSWER };
-        String selection = COLUMN_CATEGORY +"=?" + " and " + COLUMN_DIFFICULTY + "=?";
-        String[] selectionArgs = { category, difficulty };
+        String selection = COLUMN_CATEGORY +"=?";
+        String[] selectionArgs = { category };
         System.out.println("SELECTION: " + selection + "SELECTION_ARGS: " + selectionArgs);
         db = getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);

@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                     mSession.saveSession(username);
                     Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    loginIntent.putExtra("Username", username);
                     startActivity(loginIntent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Login Error", Toast.LENGTH_SHORT).show();

@@ -115,7 +115,7 @@ public class FriendListActivity extends AppCompatActivity {
         return challenges.contains(challengerUsername);
     }
 
-    private void deleteFriend(int position){
+    private void deleteFriend(int position) {
         mFriendList.remove(position);
         mAdapter.notifyItemRemoved(position);
     }
@@ -159,7 +159,7 @@ public class FriendListActivity extends AppCompatActivity {
         });
     }
 
-    private void confirmationDialog(int position){
+    private void confirmationDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(FriendListActivity.this);
         builder.setTitle("Are you sure you want to delete \""+ mFriendList.get(position).getFriendName() +"\" from your friends list?").setCancelable(false);
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
