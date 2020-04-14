@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizme.R;
+import com.example.quizme.quizMe.GameResultsDatabaseHelper;
 import com.example.quizme.quizMe.Question;
 import com.example.quizme.quizMe.QuestionDatabaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,6 +28,7 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
 
     QuestionDatabaseHelper db;
+    GameResultsDatabaseHelper dbgame;
 
     private RecyclerView.Recycler mQuestionList;
     private Button mButtonOne, mButtonTwo, mButtonThree, mButtonFour, mButtonHard, mButtonStartGame;
@@ -57,6 +59,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         db = new QuestionDatabaseHelper(this);
+        dbgame = new GameResultsDatabaseHelper(this);
 
         mButtonOne = (Button) findViewById(R.id.button_one);
         mButtonTwo = (Button) findViewById(R.id.button_two);
@@ -143,8 +146,12 @@ public class GameActivity extends AppCompatActivity {
                         Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                         numCorrectAnswers++;
                         mPointsCounter.setText(" " + numCorrectAnswers);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true);
+
                     } else {
                         Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false);
+
                     }
 
                     if (questions.isEmpty()) {
@@ -161,6 +168,7 @@ public class GameActivity extends AppCompatActivity {
                         mButtonFour.setText(randomAnswers[3]);
                         correctAnswer = currentQuestion.getCorrectAnswer();
                     }
+
                 }
             };
 
@@ -191,8 +199,12 @@ public class GameActivity extends AppCompatActivity {
                         Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                         numCorrectAnswers++;
                         mPointsCounter.setText(" " + numCorrectAnswers);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true);
+
                     } else {
                         Toast.makeText(GameActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false);
+
                     }
 
                     if (questions.isEmpty()) {
