@@ -26,11 +26,11 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_CREATE ="create table question (id integer primary key autoincrement not null," +
             "gamenumber integer not null, question text not null, category text not null, correctAnswer text not null, wrongAnswer text not null)";
 
-    private Integer[] gamenumber = {1,1,1,1,1,1,1,1,1,1};
+    //private Integer[] gamenumber = {1,1,1,1,1,1,1,1,1,1};
     private String[] question = {"What is the smallest animal alive?","What is the largest animal alive?","What is the slowest animal?","A snail can sleep for how many years?","A group of lions is known as?","Which bird is a universal symbol of peace?","Which animal never sleeps?","Which animal has the highest blood pressure?","A group of hedgehogs is known as?","The fingerprints of which animal extremely resembles the humans?"/*, "Existing as recently as 100,000 years ago, Gigantopithecus blacki is an extinct species what animal?", "Which marine animal is the only known natural predator of the great white shark?", "Dazzle” is a term used for a group of what type of animal?", "What semi-aquatic, egg laying mammal, is native to Australia and Tasmania?", "Ambergris is a waxy substance that originates as a secretion from what aquatic animal?", "What is the term for a group of kangaroos?', 'Mob (troop) (court)", "The process of making cow’s milk safe for human consumption is called what?", "Orcinus orca is the scientific name for which animal?", "Which bird has eyes that are larger than its brain?", "What is the only snake in the world that builds a nest for its eggs?", "What is the only mammal born with horns?", "What flightless bird is featured on New Zealand’s one dollar coin?", "What was the name of cowboy star Roy Rogers’ palomino horse?", "A wombat is a marsupial native to which country?", "A “sounder” is the term used to refer to a group of what type of animal?"*/};
     private String[] category = {"Animals","Animals","Animals","Animals","Animals","Animals","Animals","Animals","Animals","Animals"/*,"Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals", "Animals"*/};
     private String[] correct = {"The Paedophryne amauensis frog","Blue Whale","Sloth","3 years","A pride","Dove","Bullfrog","Giraffe","Pickles","Koala"/*,"Ape", "Orca (killer whale)", "Zebra", "Platypus (Ornithorhynchus anatinus)", "Sperm whale", "Mob (troop) (court)", "Pasteurization", "Killer whale", "Ostrich", "King Cobra", "Giraffe", "Kiwi", "Trigger (Golden Cloud)", "Australia", "Wild swine (pigs) (boars)"*/};
-    private String[] wrong = {"Paedocypris fish.Bee Hummingbird.Pygmy Rabbit","Elephant.Giraffe.Colossal Squid","Turtle.Panda.Zebra","2 years.5 years.0,5 years","Shoal.A flock.A herd","Pigeon.Eagle.Ostrich","Slug.Wasps.Cockroach","Killer whale.Meerkat.Bat","Cete.Gang.Cloud","Panda.Orangutan.Chimpanzee"};
+    private String[] wrong = {"Paedocypris fish.Bee Hummingbird.Pygmy Rabbit","Elephant.Giraffe.Colossal Squid","Turtle.Panda.Zebra","2 years.5 years.0,5 years","Shoal.A flock.A herd","Pigeon.Eagle.Ostrich","Slug.Wasps.Cockroach","Killer whale.Meerkat.Bat","Cete.Gang.Cloud","Panda.Orangutan.Chimpanzee","Slug.Wasps.Cockroach","Killer whale.Meerkat.Bat","Cete.Gang.Cloud","Panda.Orangutan.Chimpanzee", "Paedocypris fish.Bee Hummingbird.Pygmy Rabbit","Elephant.Giraffe.Colossal Squid"};
    // private Boolean[] userAnswer = {true, false, true, false, true, false, true, false, true, false};
 
     public QuestionDatabaseHelper(Context context) {
@@ -53,7 +53,7 @@ public class QuestionDatabaseHelper extends SQLiteOpenHelper {
         System.out.println("komin í makeQuestions");
         for (int i = 0; i < question.length; i++) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(COLUMN_GAMENUMBER, gamenumber[i]);
+            //contentValues.put(COLUMN_GAMENUMBER, gamenumber[i]);
             contentValues.put(COLUMN_QUESTION, question[i]);
             contentValues.put(COLUMN_CATEGORY, category[i]);
             contentValues.put(COLUMN_CORRECTANSWER, correct[i]);
