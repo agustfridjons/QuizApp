@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
@@ -14,6 +15,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "gameresults.db";
     private static final String TABLE_NAME = "gameresults";
     private static final String COLUMN_ID = "id";
+    private static final String COLUMN_GAMEID = "gameid";
     private static final String COLUMN_QUESTION = "question";
     private static final String COLUMN_CATEGORY = "category";
     private static final String COLUMN_CORRECTANSWER = "correctAnswer";
@@ -26,7 +28,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE = "create table gameresults (id integer primary key autoincrement not null," +
-            "question text not null, category text not null, correctAnswer text not null, userAnswer boolean not null)";
+            "gameid text not null, question text not null, category text not null, correctAnswer text not null, userAnswer boolean not null)";
 
     public GameResultsDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,6 +46,8 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
         this.onCreate(db);
     }
+    String uniqueID = UUID.randomUUID().toString();
+    Integer counter = 0;
 
     public long addGameResults(String question, String correctAnswer, String category, Boolean useranswer) {
         if (question.isEmpty() || category.isEmpty() || correctAnswer.isEmpty() ){
@@ -52,14 +56,19 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        if (counter < 7) {
+            contentValues.put(COLUMN_GAMEID, uniqueID);
+        }
         contentValues.put(COLUMN_QUESTION, question);
         contentValues.put(COLUMN_CATEGORY, category);
         contentValues.put(COLUMN_CORRECTANSWER, correctAnswer);
         contentValues.put(COLUMN_ANSWER, useranswer);
         long result = db.insert(TABLE_NAME, null , contentValues);
         db.close();
+        counter++;
         return result;
     }
+
 
     public ArrayList<GameResults> getGameResults(Integer gamenumber) {
         String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_ANSWER};
