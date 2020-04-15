@@ -21,11 +21,12 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NAME = "name";
     private static final String COLUMN_FRIENDS = "friends";
     private static final String COLUMN_CHALLENGES = "challenges";
+    private static final String COLUMN_REQUESTS = "requests";
 
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE = "create table user (id integer primary key autoincrement not null," +
-            "username text not null, password text not null, name text not null, friends text, challenges text)";
+            "username text not null, password text not null, name text not null, friends text not null, challenges text not null, requests text not null)";
 
     public UserDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,6 +59,9 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_USERNAME, username);
         contentValues.put(COLUMN_PASSWORD, encryptString(password));
         contentValues.put(COLUMN_NAME, name);
+        contentValues.put(COLUMN_FRIENDS,"");
+        contentValues.put(COLUMN_CHALLENGES,"");
+        contentValues.put(COLUMN_REQUESTS,"");
         long result = db.insert(TABLE_NAME, null , contentValues);
         db.close();
         return result;
@@ -81,6 +85,45 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
+    }
+
+    public void sendRequest(String friendUsername, String sessionUsername) {
+        String[] columns = {COLUMN_REQUESTS};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {friendUsername};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        ContentValues contentValues = new ContentValues();
+        if (!cursor.moveToFirst()) {
+            contentValues.put(COLUMN_REQUESTS,friendUsername+".");
+        }else{
+            contentValues.put(COLUMN_REQUESTS, cursor.getString(cursor.getColumnIndex(COLUMN_REQUESTS))+friendUsername+".");
+        }
+
+        db = getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+        cursor.close();
+        db.close();
+    }
+
+    public ArrayList<String> getRequests(String sessionUsername){
+        String[] columns = {COLUMN_REQUESTS};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {sessionUsername};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        if (!cursor.moveToFirst()) {
+            System.out.println("cursor tómur");
+            return null;
+        }
+
+        String friends = cursor.getString(cursor.getColumnIndex(COLUMN_REQUESTS));
+        cursor.close();
+        db.close();
+
+        return splitString(friends);
     }
 
 
@@ -125,7 +168,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return splitString(friends);
     }
 
-    public void addChallenger(String friendUsername, String sessionUsername) {
+    public void addChallenger(String friendUsername, String sessionUsername, String gameID) {
         String[] columns = {COLUMN_CHALLENGES};
         db = getReadableDatabase();
         String selection = COLUMN_USERNAME + "=?";
@@ -135,9 +178,9 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         if (!cursor.moveToFirst()) {
             System.out.println("Cusror tómur TÍK");
-            contentValues.put(COLUMN_CHALLENGES,friendUsername+".");
+            contentValues.put(COLUMN_CHALLENGES,friendUsername+"."+gameID+".");
         }else{
-            contentValues.put(COLUMN_CHALLENGES, cursor.getString(cursor.getColumnIndex(COLUMN_CHALLENGES))+friendUsername+".");
+            contentValues.put(COLUMN_CHALLENGES, cursor.getString(cursor.getColumnIndex(COLUMN_CHALLENGES))+friendUsername+"."+gameID+".");
         }
 
         db = getWritableDatabase();
@@ -208,12 +251,12 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
 
         ArrayList<String> subStrings = new ArrayList<>();
 
-        if(s==null)
+        if(s.isEmpty())
             return subStrings;
 
-        int startIndex = 4;
+        int startIndex = 0;
 
-        for (int i = 4; i < s.length(); i++) {
+        for (int i = 2; i < s.length(); i++) {
             if (s.charAt(i)=='.') {
                 subStrings.add(s.substring(startIndex,i));
                 System.out.println(s.substring(startIndex,i));

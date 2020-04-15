@@ -32,6 +32,8 @@ public class AddFriendActivity extends AppCompatActivity {
 
     private SessionManager mSession;
 
+    private boolean request;
+
     ArrayList<NewFriendItem> mUserList = new ArrayList<>();
 
     @Override
@@ -44,10 +46,18 @@ public class AddFriendActivity extends AppCompatActivity {
         mSearchField = (EditText) findViewById(R.id.search_field);
         mUserListView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
+        request = getIntent().getBooleanExtra("request", false);
+        System.out.println("request " + request);
+
         mSession = new SessionManager(AddFriendActivity.this);
 
         //Crate a RecyclerView list of CardView items with mUserList data
         createRecyclerViewList();
+
+        if(request){
+            mSearchField.setVisibility(View.GONE);
+            editList(db.getRequests(mSession.getSession()));
+        }
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +67,8 @@ public class AddFriendActivity extends AppCompatActivity {
             }
         });
 
+
+
         mSearchField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -65,7 +77,6 @@ public class AddFriendActivity extends AppCompatActivity {
                     String searchKey = mSearchField.getText().toString().trim();
                     if(db.searchUsers(searchKey)!=null) {
                         editList(db.searchUsers(searchKey));
-                        mAdapter.notifyDataSetChanged();
                         return true;
                     }
                 }
@@ -77,9 +88,14 @@ public class AddFriendActivity extends AppCompatActivity {
     }
 
     private void editList(ArrayList<String> newList){
+        ArrayList<String> ignoreList = db.getFriendList(mSession.getSession());
+        ignoreList.add(mSession.getSession());
         mUserList.clear();
         for (int i = 0; i < newList.size(); i++) {
-            mUserList.add(new NewFriendItem(newList.get(i)));
+            System.out.println("list contains " + newList.get(i));
+            if(!ignoreList.contains(newList.get(i)))
+                System.out.println("add");
+                mUserList.add(new NewFriendItem(newList.get(i)));
         }
         mAdapter.notifyDataSetChanged();
         mUserListView.setVisibility(View.VISIBLE);
@@ -93,15 +109,22 @@ public class AddFriendActivity extends AppCompatActivity {
         mUserListView.setLayoutManager(mLayoutManager);
         mUserListView.setAdapter(mAdapter);
 
-        //TODO klára
         mAdapter.setOnItemClickListener(new NewFriendAdapter.OnItemClickListener() {
             @Override
             public void onAddClick(int position) {
                 NewFriendItem item = mUserList.get(position);
-                db.addFriend(item.getUsersName(), mSession.getSession());
+                String toastMessage;
+                if(request){
+                    db.addFriend(item.getUsersName(), mSession.getSession());
+                    db.addFriend(mSession.getSession(),item.getUsersName());
+                    toastMessage = item.getUsersName()+" added to your friend list";
+                }else{
+                    db.sendRequest(item.getUsersName(), mSession.getSession());
+                    toastMessage = "Friend request sent to "+item.getUsersName();
+                }
                 mUserList.remove(position);
                 mAdapter.notifyItemRemoved(position);
-                Toast.makeText(AddFriendActivity.this, item.getUsersName()+" added to friend list", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddFriendActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

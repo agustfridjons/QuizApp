@@ -20,15 +20,19 @@ import com.example.quizme.R;
 import com.example.quizme.quizMe.GameResultsDatabaseHelper;
 import com.example.quizme.quizMe.Question;
 import com.example.quizme.quizMe.QuestionDatabaseHelper;
+import com.example.quizme.quizMe.SessionManager;
+import com.example.quizme.quizMe.UserDatabaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Stack;
 import java.util.Random;
+import java.util.UUID;
 
 public class GameActivity extends AppCompatActivity {
 
     QuestionDatabaseHelper db;
     GameResultsDatabaseHelper dbgame;
+    UserDatabaseHelper dbuser;
 
     private RecyclerView.Recycler mQuestionList;
     private Button mButtonOne, mButtonTwo, mButtonThree, mButtonFour, mButtonHard, mButtonStartGame;
@@ -37,6 +41,9 @@ public class GameActivity extends AppCompatActivity {
     private String correctAnswer;
     private int numCorrectAnswers = 0;
     private int questionCounter = 1;
+
+    private SessionManager mSession;
+    private String mUniqueId;
 
     // Before user finishes looking at questions and answers when in 'Easy mode', easeDone is set to false
     private boolean easyDone = false;
@@ -47,7 +54,9 @@ public class GameActivity extends AppCompatActivity {
 
         // Get chosen difficulty from DifficultyActivity
         String difficulty = getIntent().getStringExtra("Difficulty");
-
+        String challengerName = getIntent().getStringExtra("challengerName");
+        String gameID = getIntent().getStringExtra("gameID");
+        System.out.println("challenger name: "+challengerName);
         // Set layout according to difficulty chosen
         if (difficulty.equals("Easy")) {
             setContentView(R.layout.activity_game_easy);
@@ -60,6 +69,7 @@ public class GameActivity extends AppCompatActivity {
 
         db = new QuestionDatabaseHelper(this);
         dbgame = new GameResultsDatabaseHelper(this);
+        dbuser = new UserDatabaseHelper(this);
 
         mButtonOne = (Button) findViewById(R.id.button_one);
         mButtonTwo = (Button) findViewById(R.id.button_two);
@@ -70,8 +80,16 @@ public class GameActivity extends AppCompatActivity {
         mQuestion = (TextView) findViewById(R.id.question);
         mQuestionNumber = (TextView) findViewById(R.id.question_number);
         mPointsCounter = (TextView) findViewById(R.id.points);
-
         mUserAnswer = (EditText) findViewById(R.id.userAnswer);
+
+        mSession = new SessionManager(GameActivity.this);
+        if(gameID != null){
+            mUniqueId = gameID;
+        }else{
+            mUniqueId = UUID.randomUUID().toString();
+
+        }
+
 
         // Get chosen category from DifficultyActivity (CategoryActivity)
         String category = getIntent().getStringExtra("Category");
@@ -140,23 +158,24 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Button buttonClicked = (Button) findViewById(v.getId());
-                    System.out.println("correct " + buttonClicked.getText() + " og " + correctAnswer + ".");
                     questionCounter++;
                     if (buttonClicked.getText().toString().trim().equals(correctAnswer.trim())) {
                         Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                         numCorrectAnswers++;
                         mPointsCounter.setText(" " + numCorrectAnswers);
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true);
-
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true, mSession.getSession(), challengerName, mUniqueId);
                     } else {
                         Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false, mSession.getSession(),challengerName, mUniqueId);
 
                     }
 
                     if (questions.isEmpty()) {
-                        mQuestionNumber.setText("Questions done");
-                        // TODO fara a results síðu
+                        if(challengerName != null){
+                            dbuser.addChallenger(mSession.getSession(), challengerName, mUniqueId);
+                        }
+                        Intent gameResultsIntent = new Intent(GameActivity.this, GameResultsActivity.class);
+                        startActivity(gameResultsIntent);
                     } else {
                         mQuestionNumber.setText(questionCounter + " / " + 7);
                         Question currentQuestion = questions.pop(); //TODO Gera meira random
@@ -199,17 +218,18 @@ public class GameActivity extends AppCompatActivity {
                         Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                         numCorrectAnswers++;
                         mPointsCounter.setText(" " + numCorrectAnswers);
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true,mSession.getSession(),challengerName,mUniqueId);
 
                     } else {
                         Toast.makeText(GameActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false,mSession.getSession(),challengerName,mUniqueId);
 
                     }
 
                     if (questions.isEmpty()) {
                         mQuestionNumber.setText("Questions done");
-                        // TODO fara a results síðu
+                        Intent gameResultsIntent = new Intent(GameActivity.this, GameResultsActivity.class);
+                        startActivity(gameResultsIntent);
                     } else {
                         mQuestionNumber.setText(questionCounter + " / " + 7);
                         Question currentQuestion = questions.pop(); //TODO Gera meira random
