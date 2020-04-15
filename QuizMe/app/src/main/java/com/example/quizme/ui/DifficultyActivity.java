@@ -25,6 +25,8 @@ public class DifficultyActivity extends AppCompatActivity {
 
         // Get chosen category from CategoryActivity
         String category = getIntent().getStringExtra("Category");
+        String challengerName = getIntent().getStringExtra("challengerName");
+        String gameID = getIntent().getStringExtra("gameID");
 
         mEasy = (Button) findViewById(R.id.easy);
         mMedium = (Button) findViewById(R.id.medium);
@@ -38,6 +40,9 @@ public class DifficultyActivity extends AppCompatActivity {
                 Intent easyIntent = new Intent(DifficultyActivity.this, GameActivity.class);
                 easyIntent.putExtra("Difficulty", difficulty);
                 easyIntent.putExtra("Category", category);
+                easyIntent.putExtra("challengerName",challengerName);
+                easyIntent.putExtra("gameID", gameID);
+
                 startActivity(easyIntent);
             }
         });
@@ -49,6 +54,9 @@ public class DifficultyActivity extends AppCompatActivity {
                 Intent mediumIntent = new Intent(DifficultyActivity.this, GameActivity.class);
                 mediumIntent.putExtra("Difficulty", difficulty);
                 mediumIntent.putExtra("Category", category);
+                mediumIntent.putExtra("challengerName",challengerName);
+                mediumIntent.putExtra("gameID", gameID);
+
                 startActivity(mediumIntent);
             }
         });
@@ -60,6 +68,9 @@ public class DifficultyActivity extends AppCompatActivity {
                 Intent hardIntent = new Intent(DifficultyActivity.this, GameActivity.class);
                 hardIntent.putExtra("Difficulty", difficulty);
                 hardIntent.putExtra("Category", category);
+                hardIntent.putExtra("challengerName",challengerName);
+                hardIntent.putExtra("gameID", gameID);
+
                 startActivity(hardIntent);
             }
         });

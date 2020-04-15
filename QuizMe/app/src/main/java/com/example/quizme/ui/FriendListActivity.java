@@ -28,7 +28,7 @@ public class FriendListActivity extends AppCompatActivity {
     UserDatabaseHelper db;
 
     private TextView mLoginMessage;
-    private Button mAddFriendButton;
+    private Button mAddFriendButton ,mFriendRequestsButton;
     private RecyclerView mFriendListView;
     private FriendListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -44,6 +44,7 @@ public class FriendListActivity extends AppCompatActivity {
         db = new UserDatabaseHelper(this);
 
         mAddFriendButton = (Button) findViewById(R.id.new_friend_button);
+        mFriendRequestsButton = (Button) findViewById(R.id.button_requests);
         mFriendListView = (RecyclerView) findViewById(R.id.list_recycler_view);
         mLoginMessage = (TextView) findViewById(R.id.login_message);
 
@@ -54,14 +55,25 @@ public class FriendListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addFriendIntent = new Intent(FriendListActivity.this, AddFriendActivity.class);
+                addFriendIntent.putExtra("requests", false);
                 startActivity(addFriendIntent);
             }
         };
+
+        mFriendRequestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent friendRequestIntent = new Intent(FriendListActivity.this, AddFriendActivity.class);
+                friendRequestIntent.putExtra("request", true);
+                startActivity(friendRequestIntent);
+            }
+        });
 
         //Is session isn't empty then show friend list
         if(mSession.getSession()!=null) {
             System.out.println(mSession.getSession());
             mAddFriendButton.setVisibility(View.VISIBLE);
+            mFriendRequestsButton.setVisibility(View.VISIBLE);
 
             //Placeholder data to display list
             ArrayList<String> list = db.getFriendList(mSession.getSession());
@@ -116,15 +128,40 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     private void deleteFriend(int position) {
+        //db.deleteFriend(mSession.getSession(), mFriendList.get(position).getFriendName()))
         mFriendList.remove(position);
         mAdapter.notifyItemRemoved(position);
     }
 
+    private void acceptChallenge(int position) {
+        //db.deleteChallenge(mSession.getSession(), mFriendList.get(position).getFriendName()))
+        //TODO útfæra
+        String challengerName = mFriendList.get(position).getFriendName();
+        String gameID = getChallengeGameID(challengerName);
+        Intent intent = new Intent(FriendListActivity.this, CategoryActivity.class);
+        intent.putExtra("challengerName", challengerName); //bæta við meira
+        intent.putExtra("gameID", gameID);
+        startActivity(intent);
+    }
+
+    private String getChallengeGameID(String challengerName) {
+        ArrayList<String> challengeList = db.getChallenges(mSession.getSession());
+        String gameID="";
+        for (int i = 0; i < challengeList.size(); i++) {
+            if(challengeList.get(i).equals(challengerName)){
+                gameID = challengeList.get(i+1);
+            }
+            i++;
+        }
+        return gameID;
+    }
+
+
     private void startChallenge(int position){
-        Intent easyIntent = new Intent(FriendListActivity.this, GameActivity.class);
+        Intent intent = new Intent(FriendListActivity.this, CategoryActivity.class);
         String friendsName= mFriendList.get(position).getFriendName();
-        easyIntent.putExtra("challengerName",friendsName);
-        String[] gameInfo;//TODO
+        intent.putExtra("challengerName",friendsName);
+        startActivity(intent);
     }
 
     private void createRecyclerViewList() {
@@ -139,10 +176,7 @@ public class FriendListActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new FriendListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                FriendListItem item = mFriendList.get(position);
-                item.setFriendName(item.getFriendName() + "Y");
-                //challengeConfirmationDialog(position);
-                mAdapter.notifyItemChanged(position);
+                challengeConfirmationDialog(position);
             }
 
             @Override
@@ -152,9 +186,8 @@ public class FriendListActivity extends AppCompatActivity {
 
             @Override
             public void onChallengeClick(int position) {
-                FriendListItem item = mFriendList.get(position);
-                item.setFriendName(item.getFriendName() + "X");
-                mAdapter.notifyItemChanged(position);
+                //db.deleteChallenge(mSession.getSession(), mFriendList.get(position).getFriendName()))
+                startChallenge(position);
             }
         });
     }
@@ -190,7 +223,7 @@ public class FriendListActivity extends AppCompatActivity {
 
             public void onClick(DialogInterface dialog, int which) {
                 // Delete name form friend list
-                startChallenge(position);
+                acceptChallenge(position);
                 dialog.dismiss();
             }
         });
@@ -206,4 +239,6 @@ public class FriendListActivity extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
+
 }
