@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="150dp"
-        android:layout_marginBottom="65dp"/>
+        android:layout_marginBottom="100dp"/>
 
     <TextView
         android:id="@+id/Title"
@@ -35,22 +35,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="160dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/button_custom_white"
-        android:fontFamily="@font/quicksand_bold"
-        android:text="back" />
-
     <EditText
         android:id="@+id/search_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/Title"
         android:layout_marginTop="10dp"
         android:layout_marginStart="60dp"
@@ -58,5 +46,16 @@
         android:fontFamily="@font/quicksand_bold"
         android:hint="Users Name" />
 
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="165dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/button_custom_white"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="back" />
 
 </RelativeLayout>
