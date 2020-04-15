@@ -61,8 +61,10 @@ public class GameResultsActivity extends AppCompatActivity {
         init();
     }
 
+
     public void init() {
         db = new GameResultsDatabaseHelper(this);
+
         ArrayList<GameResults> gameresults = db.getGameResults(1);
 
         TableLayout mGameResultsTable = (TableLayout) findViewById(R.id.gameresults_table);
@@ -75,6 +77,7 @@ public class GameResultsActivity extends AppCompatActivity {
 
         TextView tv3 = new TextView(this);
         tv3.setText(" Correct Answer ");
+        tv3.setGravity(Gravity.CENTER);
         tv3.setTextColor(Color.BLACK);
         tbrow0.addView(tv3);
         ((TableLayout) mGameResultsTable).addView(tbrow0);
@@ -84,10 +87,10 @@ public class GameResultsActivity extends AppCompatActivity {
 
             String correctAnswer = gameresults.get(i).getCorrectAnswer();
             TableRow tbrow = new TableRow(this);
-            if (userAnswer == 0){
+            if (userAnswer == 1){
                 tbrow.setBackgroundColor(Color.parseColor("#99FF99"));
 
-            } else if (userAnswer == 1){
+            } else if (userAnswer == 0){
                 tbrow.setBackgroundColor(Color.parseColor("#FF9999"));
 
             }

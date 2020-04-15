@@ -69,6 +69,12 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    /*
+    public String getGameId(){
+        String[] column = {COLUMN_GAMEID};
+        String selectionQuery = "SELECT * FROM " +
+    }
+*/
 
     public ArrayList<GameResults> getGameResults(Integer gamenumber) {
         String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_ANSWER};
