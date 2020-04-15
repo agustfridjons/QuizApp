@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
@@ -21,14 +20,14 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CORRECTANSWER = "correctAnswer";
     private static final String COLUMN_ANSWER = "userAnswer";
     private static final String COLUMN_GAMENUMBER = "gameNumber";
+    private static final String COLUMN_USER = "userName";
+    private static final String COLUMN_CHALLENGER = "challengerName";
 
-
-    // TODO private static final String COLUMN_CORRECTLYANSWERED = "correctlyAnswered";
 
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE = "create table gameresults (id integer primary key autoincrement not null," +
-            "gameid text not null, question text not null, category text not null, correctAnswer text not null, userAnswer boolean not null)";
+            "gameid text not null, question text not null, category text not null, correctAnswer text not null, userAnswer boolean not null, userName text not null, challengerName text)";
 
     public GameResultsDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -46,11 +45,13 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
         this.onCreate(db);
     }
-    String uniqueID = UUID.randomUUID().toString();
+
     Integer counter = 0;
 
-    public long addGameResults(String question, String correctAnswer, String category, Boolean useranswer) {
-        if (question.isEmpty() || category.isEmpty() || correctAnswer.isEmpty() ){
+    public long addGameResults(String question, String correctAnswer, String category,
+                               Boolean useranswer, String username, String challenger, String uniqueID) {
+
+        if (question.isEmpty() || category.isEmpty() || correctAnswer.isEmpty() || username.isEmpty()){
             return 0;
         }
 
@@ -63,6 +64,11 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_CATEGORY, category);
         contentValues.put(COLUMN_CORRECTANSWER, correctAnswer);
         contentValues.put(COLUMN_ANSWER, useranswer);
+        contentValues.put(COLUMN_USER, username);
+        if(challenger!=null) {
+            contentValues.put(COLUMN_CHALLENGER, challenger);
+
+        }
         long result = db.insert(TABLE_NAME, null , contentValues);
         db.close();
         counter++;

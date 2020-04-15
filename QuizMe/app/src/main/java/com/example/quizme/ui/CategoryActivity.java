@@ -30,6 +30,9 @@ public class CategoryActivity extends Activity implements AdapterView.OnItemSele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
+        String challengerName = getIntent().getStringExtra("challengerName");
+        String gameID = getIntent().getStringExtra("gameID");
+
         Spinner s = (Spinner) findViewById(R.id.categories);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -48,13 +51,13 @@ public class CategoryActivity extends Activity implements AdapterView.OnItemSele
         mStartGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO byrjar nyjan leik
-                // TODO ef notandi gerir start game en enginn category valinn
                 if (mCategory == null) {
                     Toast.makeText(CategoryActivity.this, "Please choose a category", Toast.LENGTH_SHORT).show();
                 } else if (mCategory != null) {
                     Intent newGameIntent = new Intent(CategoryActivity.this, DifficultyActivity.class);
                     newGameIntent.putExtra("Category", mCategory);
+                    newGameIntent.putExtra("challengerName",challengerName);
+                    newGameIntent.putExtra("gameID", gameID);
                     startActivity(newGameIntent);
                 }
             }
