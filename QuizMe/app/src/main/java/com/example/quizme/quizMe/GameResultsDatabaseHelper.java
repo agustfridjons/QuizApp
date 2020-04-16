@@ -108,7 +108,9 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
 
     public ArrayList<GameResults> getGameResults(String gameid) {
+
         String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_DIFFICULTY, COLUMN_ANSWER, COLUMN_GAMEID};
+
         String selection = COLUMN_GAMEID + "=?";
         String[] selectionArgs = {gameid};
         String selectionQuery = "SELECT * FROM " + TABLE_NAME;
@@ -143,6 +145,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
                 final String gameID = cursor.getString(gameidIndex);
 
                 gameresults.add(new GameResults(category, difficulty, answer, correct, gameID));
+
                 i++;
             } while (cursor.moveToNext());
             return gameresults;

@@ -104,6 +104,30 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return name;
     }
 
+    public void removeRequest(String friendUsername, String sessionUsername){
+        String[] columns = {COLUMN_REQUESTS};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {sessionUsername};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        if (!cursor.moveToFirst()) {
+            System.out.println("cursor tómur");
+            return;
+        }
+
+        String requests = cursor.getString(cursor.getColumnIndex(COLUMN_REQUESTS));
+
+        db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_REQUESTS, removeSubString(requests, friendUsername));
+
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+
+        cursor.close();
+        db.close();
+    }
+
     public void sendRequest(String friendUsername, String sessionUsername) {
         String[] columns = {COLUMN_REQUESTS};
         db = getReadableDatabase();
@@ -144,6 +168,37 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return splitString(friends);
     }
 
+    public void removeFriend(String friendUsername, String sessionUsername){
+        String[] columns = {COLUMN_FRIENDS};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {sessionUsername};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        String friends = cursor.getString(cursor.getColumnIndex(COLUMN_FRIENDS));
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_FRIENDS, removeSubString(friends, friendUsername));
+
+        db = getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+
+        //remove session user from removed friends friends list
+        db = getReadableDatabase();
+        selectionArgs[0] = friendUsername;
+        cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        friends = cursor.getString(cursor.getColumnIndex(COLUMN_FRIENDS));
+
+        contentValues = new ContentValues();
+        contentValues.put(COLUMN_FRIENDS, removeSubString(friends, sessionUsername));
+
+        db = getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+
+        cursor.close();
+        db.close();
+    }
 
     public void addFriend(String friendUsername, String sessionName) {
         String[] columns = {COLUMN_FRIENDS};
@@ -185,6 +240,36 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return splitString(friends);
     }
 
+    public void removeChallenge(String friendUsername, String sessionUsername, String gameID){
+        String[] columns = {COLUMN_CHALLENGES};
+        db = getReadableDatabase();
+        String selection = COLUMN_USERNAME + "=?";
+        String[] selectionArgs = {sessionUsername};
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        String challenges = cursor.getString(cursor.getColumnIndex(COLUMN_CHALLENGES));
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_CHALLENGES, removeSubString(challenges, friendUsername+"."+gameID));
+
+        db = getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+
+        db = getReadableDatabase();
+        selectionArgs[0] = friendUsername;
+        cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        challenges = cursor.getString(cursor.getColumnIndex(COLUMN_CHALLENGES));
+
+        contentValues = new ContentValues();
+        contentValues.put(COLUMN_CHALLENGES, removeSubString(challenges, sessionUsername+"."+gameID));
+
+        db = getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,COLUMN_USERNAME+"=?",selectionArgs );
+
+        cursor.close();
+        db.close();
+    }
 
     public void addChallenge(String friendUsername, String sessionUsername, String gameID) {
         String[] columns = {COLUMN_CHALLENGES};
@@ -264,6 +349,11 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
             db.close();
         }
 
+    }
+
+    public static String removeSubString(String s, String substring){
+        s = s.replace(substring+".", "");
+        return s;
     }
 
     private static ArrayList<String> splitString(String s){

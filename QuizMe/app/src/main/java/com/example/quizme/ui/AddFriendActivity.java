@@ -3,11 +3,13 @@ package com.example.quizme.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import com.example.quizme.quizMe.SessionManager;
 import com.example.quizme.quizMe.UserDatabaseHelper;
 import com.example.quizme.ui.Adapters.NewFriendAdapter;
 import com.example.quizme.ui.items.NewFriendItem;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -25,7 +28,6 @@ public class AddFriendActivity extends AppCompatActivity {
     UserDatabaseHelper db;
 
     private EditText mSearchField;
-    private Button mBackButton;
     private RecyclerView mUserListView;
     private NewFriendAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -42,7 +44,6 @@ public class AddFriendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         db = new UserDatabaseHelper(this);
 
-        mBackButton = (Button) findViewById(R.id.back);
         mSearchField = (EditText) findViewById(R.id.search_field);
         mUserListView = (RecyclerView) findViewById(R.id.list_recycler_view);
 
@@ -58,16 +59,6 @@ public class AddFriendActivity extends AppCompatActivity {
             mSearchField.setVisibility(View.GONE);
             editList(db.getRequests(mSession.getSession()));
         }
-
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent friendListIntent = new Intent(AddFriendActivity.this, FriendListActivity.class);
-                startActivity(friendListIntent);
-            }
-        });
-
-
 
         mSearchField.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -115,6 +106,8 @@ public class AddFriendActivity extends AppCompatActivity {
                 NewFriendItem item = mUserList.get(position);
                 String toastMessage;
                 if(request){
+                    System.out.println(item.getUsername()+"    sess "+mSession.getSession());
+                    db.removeRequest(item.getUsername(),mSession.getSession());
                     db.addFriend(item.getUsername(), mSession.getSession());
                     db.addFriend(mSession.getSession(),item.getUsername());
                     toastMessage = item.getUsersName()+" added to your friend list";
@@ -125,6 +118,29 @@ public class AddFriendActivity extends AppCompatActivity {
                 mUserList.remove(position);
                 mAdapter.notifyItemRemoved(position);
                 Toast.makeText(AddFriendActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        Intent a = new Intent(AddFriendActivity.this, MainActivity.class);
+                        startActivity(a);
+                        break;
+                    case R.id.nav_friends:
+                        Intent b = new Intent(AddFriendActivity.this, FriendListActivity.class);
+                        startActivity(b);
+                        break;
+                    case R.id.nav_results:
+                        Intent c = new Intent(AddFriendActivity.this, GameResultsActivity.class);
+                        startActivity(c);
+                        break;
+                }
+                return false;
             }
         });
     }

@@ -17,7 +17,7 @@ import com.example.quizme.quizMe.SessionManager;
 public class MainActivity extends AppCompatActivity {
 
     private Button mNewGame, mGameResults, mViewFriendList;
-    private TextView mLoginText, mSignUpText;
+    private TextView mLoginText, mSignUpText, mSessionUserText;
     private SessionManager mSession;
 
 
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mViewFriendList = (Button) findViewById(R.id.friendlist_button);
         mLoginText = (TextView) findViewById(R.id.login_text);
         mSignUpText = (TextView) findViewById(R.id.signup_text);
+        mSessionUserText = (TextView) findViewById(R.id.session_user_text);
 
 
         // Get username from LoginActivity
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         if(mSession.getSession() != null){
             mLoginText.setText("Log Out");
             mSignUpText.setVisibility(View.GONE);
+            mSessionUserText.setText("Welcome to QuizMe "+mSession.getSessionName()+"!");
+            mSessionUserText.setVisibility(View.VISIBLE);
         }
 
 
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     mSession.removeSession();
                     mLoginText.setText("Log in");
                     mSignUpText.setVisibility(View.VISIBLE);
+                    mSessionUserText.setVisibility(View.GONE);
                 } else {
                     Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(loginIntent);
