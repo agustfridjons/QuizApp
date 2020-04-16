@@ -20,8 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_medium"
+        android:layout_gravity="center"
         android:textSize="18sp"
-        android:textColor="#1E1E1E" />
+        android:textColor="#333333" />
 
     <Space
         android:layout_width="match_parent"
@@ -31,10 +32,10 @@
         android:id="@+id/question"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_medium"
+        android:fontFamily="@font/quicksand_bold"
         android:textSize="18sp"
         android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textColor="#171717" />
 
     <Space
         android:layout_width="match_parent"
@@ -82,10 +83,15 @@
         android:layout_height="22dp"
         android:orientation="horizontal">
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
         <TextView
             android:id="@+id/Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:fontFamily="@font/quicksand_bold"
             android:textSize="18dp"
             android:text="Score: " />
@@ -95,6 +101,7 @@
             android:layout_width="38dp"
             android:layout_height="match_parent"
             android:fontFamily="@font/quicksand_bold"
+
             android:textSize="18dp" />
     </LinearLayout>
     </LinearLayout>

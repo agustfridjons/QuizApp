@@ -12,7 +12,6 @@
         android:background="@color/colorPrimary"
         android:padding="4dp">
 
-
         <TextView
             android:id="@+id/user_textView"
             android:layout_width="wrap_content"

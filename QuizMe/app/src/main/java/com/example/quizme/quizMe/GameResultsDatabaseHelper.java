@@ -52,7 +52,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
     public long addGameResults(String question, String correctAnswer, String category,
                                Boolean useranswer, String username, String challenger, String uniqueID) {
 
-        if (question.isEmpty() || category.isEmpty() || correctAnswer.isEmpty() || username.isEmpty()){
+        if (question.isEmpty() || category.isEmpty() || correctAnswer.isEmpty() || username.isEmpty()) {
             return 0;
         }
 
