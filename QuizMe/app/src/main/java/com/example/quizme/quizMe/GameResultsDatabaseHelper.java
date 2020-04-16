@@ -17,6 +17,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_GAMEID = "gameid";
     private static final String COLUMN_QUESTION = "question";
     private static final String COLUMN_CATEGORY = "category";
+    private static final String COLUMN_DIFFICULTY = "difficulty";
     private static final String COLUMN_CORRECTANSWER = "correctAnswer";
     private static final String COLUMN_ANSWER = "userAnswer";
     private static final String COLUMN_GAMENUMBER = "gameNumber";
@@ -27,7 +28,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
     SQLiteDatabase db;
 
     private static final String TABLE_CREATE = "create table gameresults (id integer primary key autoincrement not null," +
-            "gameid text not null, question text not null, category text not null, correctAnswer text not null, userAnswer boolean not null, userName text not null, challengerName text)";
+            "gameid text not null, question text not null, category text not null, difficulty text not null, correctAnswer text not null, userAnswer boolean not null, userName text not null, challengerName text)";
 
     public GameResultsDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,7 +49,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
     Integer counter = 0;
 
-    public long addGameResults(String question, String correctAnswer, String category,
+    public long addGameResults(String question, String correctAnswer, String category, String difficulty,
                                Boolean useranswer, String username, String challenger, String uniqueID) {
 
         if (question.isEmpty() || category.isEmpty() || correctAnswer.isEmpty() || username.isEmpty()) {
@@ -62,6 +63,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
         }
         contentValues.put(COLUMN_QUESTION, question);
         contentValues.put(COLUMN_CATEGORY, category);
+        contentValues.put(COLUMN_DIFFICULTY, difficulty);
         contentValues.put(COLUMN_CORRECTANSWER, correctAnswer);
         contentValues.put(COLUMN_ANSWER, useranswer);
         contentValues.put(COLUMN_USER, username);
@@ -106,7 +108,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
 
     public ArrayList<GameResults> getGameResults(String gameid) {
-        String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_ANSWER, COLUMN_GAMEID};
+        String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_DIFFICULTY, COLUMN_ANSWER, COLUMN_GAMEID};
         String selection = COLUMN_GAMEID + "=?";
         String[] selectionArgs = {gameid};
         String selectionQuery = "SELECT * FROM " + TABLE_NAME;
@@ -121,6 +123,7 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
         final int correctIndex = cursor.getColumnIndex(COLUMN_CORRECTANSWER);
         final int categoryIndex = cursor.getColumnIndex(COLUMN_CATEGORY);
+        final int difficultyIndex = cursor.getColumnIndex(COLUMN_DIFFICULTY);
         final int answerIndex = cursor.getColumnIndex(COLUMN_ANSWER);
         final int gameidIndex = cursor.getColumnIndex(COLUMN_GAMEID);
 
@@ -135,10 +138,11 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
             do {
                 final String correct = cursor.getString(correctIndex);
                 final String category = cursor.getString(categoryIndex);
+                final String difficulty = cursor.getString(difficultyIndex);
                 final Integer answer = cursor.getInt(answerIndex);
                 final String gameID = cursor.getString(gameidIndex);
 
-                gameresults.add(new GameResults(category, answer, correct, gameID));
+                gameresults.add(new GameResults(category, difficulty, answer, correct, gameID));
                 i++;
             } while (cursor.moveToNext());
             return gameresults;

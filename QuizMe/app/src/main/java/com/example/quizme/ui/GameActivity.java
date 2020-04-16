@@ -1,15 +1,11 @@
 package com.example.quizme.ui;
 
-import android.app.ActionBar;
-import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +21,12 @@ import com.example.quizme.quizMe.QuestionDatabaseHelper;
 import com.example.quizme.quizMe.SessionManager;
 import com.example.quizme.quizMe.UserDatabaseHelper;
 import com.example.quizme.ui.Adapters.EasyModeAdapter;
-import com.example.quizme.ui.Adapters.FriendListAdapter;
-import com.example.quizme.ui.Adapters.NewFriendAdapter;
 import com.example.quizme.ui.items.EasyModeItem;
-import com.example.quizme.ui.items.NewFriendItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.Random;
+import java.util.Stack;
 import java.util.UUID;
 
 public class GameActivity extends AppCompatActivity {
@@ -67,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
 
         // Get chosen difficulty from DifficultyActivity
         String difficulty = getIntent().getStringExtra("Difficulty");
+        System.out.println("Þetta er difficulty vonandi skil ekki HAHAHA " + difficulty);
         String challengerName = getIntent().getStringExtra("challengerName");
         String gameID = getIntent().getStringExtra("gameID");
         System.out.println("challenger name: "+challengerName);
@@ -195,10 +189,10 @@ public class GameActivity extends AppCompatActivity {
                         Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                         numCorrectAnswers++;
                         mPointsCounter.setText(" " + numCorrectAnswers);
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true, mSession.getSession(), challengerName, mUniqueId);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty, true, mSession.getSession(), challengerName, mUniqueId);
                     } else {
                         Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false, mSession.getSession(),challengerName, mUniqueId);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category,  difficulty,false, mSession.getSession(),challengerName, mUniqueId);
 
                     }
 
@@ -250,11 +244,11 @@ public class GameActivity extends AppCompatActivity {
                         Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                         numCorrectAnswers++;
                         mPointsCounter.setText(" " + numCorrectAnswers);
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true,mSession.getSession(),challengerName,mUniqueId);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty,true,mSession.getSession(),challengerName,mUniqueId);
 
                     } else {
                         Toast.makeText(GameActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false,mSession.getSession(),challengerName,mUniqueId);
+                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty, false,mSession.getSession(),challengerName,mUniqueId);
 
                     }
 

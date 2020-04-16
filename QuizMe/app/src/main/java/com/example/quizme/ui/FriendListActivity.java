@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizme.R;
+import com.example.quizme.quizMe.GameResults;
+import com.example.quizme.quizMe.GameResultsDatabaseHelper;
 import com.example.quizme.quizMe.SessionManager;
 import com.example.quizme.quizMe.UserDatabaseHelper;
 import com.example.quizme.ui.Adapters.FriendListAdapter;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 public class FriendListActivity extends AppCompatActivity {
 
     UserDatabaseHelper db;
+    GameResultsDatabaseHelper dbGame;
 
     private TextView mLoginMessage;
     private Button mAddFriendButton, mFriendRequestsButton;
@@ -42,6 +45,7 @@ public class FriendListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
         db = new UserDatabaseHelper(this);
+        dbGame = new GameResultsDatabaseHelper(this);
 
         mAddFriendButton = (Button) findViewById(R.id.new_friend_button);
         mFriendRequestsButton = (Button) findViewById(R.id.button_requests);
@@ -139,7 +143,15 @@ public class FriendListActivity extends AppCompatActivity {
         String challengerName = mFriendList.get(position).getUsername();
         String gameID = getChallengeGameID(challengerName);
         Intent intent = new Intent(FriendListActivity.this, GameActivity.class);
-        intent.putExtra("difficulty", difficulty);
+        ArrayList<String> gameidFromDatabase = dbGame.getGameId(challengerName);
+        String betterGameId = gameidFromDatabase.get(0);
+        ArrayList<GameResults> gameResults = dbGame.getGameResults(betterGameId);
+        String difficulty = gameResults.get(0).getDifficulty();
+        String category = gameResults.get(0).getCategory();
+
+
+        intent.putExtra("Difficulty", difficulty);
+        intent.putExtra("Category", category);
         intent.putExtra("challengerName", challengerName); //bæta við meira
         intent.putExtra("gameID", gameID);
         startActivity(intent);
