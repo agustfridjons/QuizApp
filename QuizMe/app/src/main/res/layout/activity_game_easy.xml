@@ -1,56 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:background="@drawable/milkyway"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/paleblue"
+android:gravity="center"
+tools:context=".ui.FriendListActivity">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="@string/memorize"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:textColor="#2B2B2B" />
+
+        <Button
+            android:id="@+id/start_game_button"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:background="@drawable/button_custom_white"
+            android:text="@string/start_game"
+            android:textSize="14sp"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_recycler_view_hints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"/>
 
-    <TextView
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_medium"
-        android:text="@string/memorize"
-        android:textSize="18sp"
-        android:textAlignment="center"
-        android:textColor="#000000" />
-
-    <TableLayout
-        android:id="@+id/question_table"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </TableLayout>
-
-    <Button
-        android:id="@+id/start_game_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:fontFamily="@font/quicksand_medium"
-        android:background="@drawable/button_custom_white"
-        android:text="@string/start_game"
-        android:textSize="18sp"
-        android:textColor="#000000" />
-    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="-3dp"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
         app:menu="@menu/bottom_nav_menu" />

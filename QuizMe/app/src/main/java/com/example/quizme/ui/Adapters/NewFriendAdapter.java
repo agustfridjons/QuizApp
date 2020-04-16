@@ -46,8 +46,8 @@ public class NewFriendAdapter extends RecyclerView.Adapter<NewFriendAdapter.User
                 public void onClick(View v) {
                     if (listener != null){
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            //Sendi true inn í Activityið ef ýtt var á delete takkann
+                        if (position != RecyclerView.NO_POSITION) {
+                            // Sendi true inn í Activityið ef ýtt var á delete takkann
                             listener.onAddClick(position);
                         }
                     }
