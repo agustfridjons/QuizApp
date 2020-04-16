@@ -138,7 +138,7 @@ public class FriendListActivity extends AppCompatActivity {
         //TODO útfæra
         String challengerName = mFriendList.get(position).getFriendName();
         String gameID = getChallengeGameID(challengerName);
-        Intent intent = new Intent(FriendListActivity.this, CategoryActivity.class);
+        Intent intent = new Intent(FriendListActivity.this, GameActivity.class);
         intent.putExtra("challengerName", challengerName); //bæta við meira
         intent.putExtra("gameID", gameID);
         startActivity(intent);

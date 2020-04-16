@@ -18,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CategoryActivity extends Activity implements AdapterView.OnItemSelectedListener {
     private static final String[] ALL_CATEGORIES = {
-            "Animals", "Food", "Movies",
+            "Animals", "Computers", "Movies",
             "Politics", "Sports"
     };
 
