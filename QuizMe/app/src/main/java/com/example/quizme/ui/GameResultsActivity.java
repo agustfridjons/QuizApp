@@ -76,6 +76,7 @@ public class GameResultsActivity extends AppCompatActivity {
         ArrayList<String> gameId = db.getGameId(username);
         for(int o = 0; o<gameId.size(); o++) {
             ArrayList<GameResults> gameresults = db.getGameResults(gameId.get(o));
+            String difficulty = gameresults.get(0).getDifficulty();
             String category = gameresults.get(o).getCategory();
             String categoryResult = "Category: " + category;
             TableLayout mGameResultsTable = (TableLayout) findViewById(R.id.gameresults_table);
