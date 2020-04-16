@@ -4,12 +4,19 @@ package com.example.quizme.ui.items;
 // TODO mögilega bæta við?
 public class FriendListItem {
     private String mFriendName;
+    private String mUsername;
     private boolean mChallenge;
 
-    public FriendListItem(String friendName, boolean challenge) {
+    public FriendListItem(String friendName, String username , boolean challenge) {
         mFriendName = friendName;
         mChallenge = challenge;
+        mUsername = username;
     }
+
+    public String getUsername() {
+        return mUsername;
+    }
+
 
     public String getFriendName() {
         return mFriendName;

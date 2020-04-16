@@ -83,7 +83,7 @@ public class FriendListActivity extends AppCompatActivity {
                 mLoginMessage.setOnClickListener(addSwitchEvent);
             } else {
                 for (int i = 0; i < list.size(); i++) {
-                    mFriendList.add(new FriendListItem(list.get(i), hasChallenged(list.get(i))));
+                    mFriendList.add(new FriendListItem(db.getName(list.get(i)), list.get(i), hasChallenged(list.get(i))));
                 }
                 mLoginMessage.setVisibility(View.GONE);
                 mFriendListView.setVisibility(View.VISIBLE);
@@ -128,15 +128,15 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     private void deleteFriend(int position) {
-        //db.deleteFriend(mSession.getSession(), mFriendList.get(position).getFriendName()))
+        //db.deleteFriend(mSession.getSession(), mFriendList.get(position).getUsername()))
         mFriendList.remove(position);
         mAdapter.notifyItemRemoved(position);
     }
 
     private void acceptChallenge(int position) {
-        //db.deleteChallenge(mSession.getSession(), mFriendList.get(position).getFriendName()))
+        //db.deleteChallenge(mSession.getSession(), mFriendList.get(position).getUsername()))
         //TODO útfæra
-        String challengerName = mFriendList.get(position).getFriendName();
+        String challengerName = mFriendList.get(position).getUsername();
         String gameID = getChallengeGameID(challengerName);
         Intent intent = new Intent(FriendListActivity.this, GameActivity.class);
         intent.putExtra("challengerName", challengerName); //bæta við meira
@@ -153,13 +153,14 @@ public class FriendListActivity extends AppCompatActivity {
             }
             i++;
         }
+        System.out.println(gameID);
         return gameID;
     }
 
 
     private void startChallenge(int position){
         Intent intent = new Intent(FriendListActivity.this, CategoryActivity.class);
-        String friendsName= mFriendList.get(position).getFriendName();
+        String friendsName= mFriendList.get(position).getUsername();
         intent.putExtra("challengerName",friendsName);
         startActivity(intent);
     }
@@ -186,7 +187,7 @@ public class FriendListActivity extends AppCompatActivity {
 
             @Override
             public void onChallengeClick(int position) {
-                //db.deleteChallenge(mSession.getSession(), mFriendList.get(position).getFriendName()))
+                //db.deleteChallenge(mSession.getSession(), mFriendList.get(position).getUsername()))
                 startChallenge(position);
             }
         });

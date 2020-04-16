@@ -80,7 +80,6 @@ public class AddFriendActivity extends AppCompatActivity {
                         return true;
                     }
                 }
-
                 return false;
             }
         });
@@ -93,9 +92,10 @@ public class AddFriendActivity extends AppCompatActivity {
         mUserList.clear();
         for (int i = 0; i < newList.size(); i++) {
             System.out.println("list contains " + newList.get(i));
-            if(!ignoreList.contains(newList.get(i)))
+            if(!ignoreList.contains(newList.get(i))) {
                 System.out.println("add");
-                mUserList.add(new NewFriendItem(newList.get(i)));
+                mUserList.add(new NewFriendItem(db.getName(newList.get(i)), newList.get(i)));
+            }
         }
         mAdapter.notifyDataSetChanged();
         mUserListView.setVisibility(View.VISIBLE);
@@ -115,11 +115,11 @@ public class AddFriendActivity extends AppCompatActivity {
                 NewFriendItem item = mUserList.get(position);
                 String toastMessage;
                 if(request){
-                    db.addFriend(item.getUsersName(), mSession.getSession());
-                    db.addFriend(mSession.getSession(),item.getUsersName());
+                    db.addFriend(item.getUsername(), mSession.getSession());
+                    db.addFriend(mSession.getSession(),item.getUsername());
                     toastMessage = item.getUsersName()+" added to your friend list";
                 }else{
-                    db.sendRequest(item.getUsersName(), mSession.getSession());
+                    db.sendRequest(item.getUsername(), mSession.getSession());
                     toastMessage = "Friend request sent to "+item.getUsersName();
                 }
                 mUserList.remove(position);
