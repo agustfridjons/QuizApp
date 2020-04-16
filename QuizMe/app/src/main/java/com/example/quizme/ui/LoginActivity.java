@@ -53,10 +53,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
-                Boolean res = db.checkUser(username, password);
+                boolean res = db.checkUser(username, password);
 
-                if (res == true) {
-                    mSession.saveSession(username);
+                if (res) {
+                    String name = db.getName(username);
+                    mSession.saveSession(username,name);
                     Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                     loginIntent.putExtra("Username", username);
