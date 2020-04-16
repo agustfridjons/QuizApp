@@ -28,7 +28,7 @@ public class FriendListActivity extends AppCompatActivity {
     UserDatabaseHelper db;
 
     private TextView mLoginMessage;
-    private Button mAddFriendButton ,mFriendRequestsButton;
+    private Button mAddFriendButton, mFriendRequestsButton;
     private RecyclerView mFriendListView;
     private FriendListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -69,7 +69,7 @@ public class FriendListActivity extends AppCompatActivity {
             }
         });
 
-        //Is session isn't empty then show friend list
+        //If session isn't empty then show friend list
         if(mSession.getSession()!=null) {
             System.out.println(mSession.getSession());
             mAddFriendButton.setVisibility(View.VISIBLE);
@@ -88,7 +88,7 @@ public class FriendListActivity extends AppCompatActivity {
                 mLoginMessage.setVisibility(View.GONE);
                 mFriendListView.setVisibility(View.VISIBLE);
 
-                //Crate a RecyclerView list of CardView items with mFreindList data
+                //Crate a RecyclerView list of CardView items with mFriendList data
                 createRecyclerViewList();
             }
         }

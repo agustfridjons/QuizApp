@@ -1,5 +1,6 @@
 package com.example.quizme.ui;
 
+import android.app.ActionBar;
 import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizme.R;
@@ -22,8 +24,14 @@ import com.example.quizme.quizMe.Question;
 import com.example.quizme.quizMe.QuestionDatabaseHelper;
 import com.example.quizme.quizMe.SessionManager;
 import com.example.quizme.quizMe.UserDatabaseHelper;
+import com.example.quizme.ui.Adapters.EasyModeAdapter;
+import com.example.quizme.ui.Adapters.FriendListAdapter;
+import com.example.quizme.ui.Adapters.NewFriendAdapter;
+import com.example.quizme.ui.items.EasyModeItem;
+import com.example.quizme.ui.items.NewFriendItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Random;
 import java.util.UUID;
@@ -35,6 +43,8 @@ public class GameActivity extends AppCompatActivity {
     UserDatabaseHelper dbuser;
 
     private RecyclerView.Recycler mQuestionList;
+    private RecyclerView mHintListView;
+    private EasyModeAdapter mAdapter;
     private Button mButtonOne, mButtonTwo, mButtonThree, mButtonFour, mButtonHard, mButtonStartGame;
     private TextView mQuestion, mQuestionNumber, mPointsCounter;
     private EditText mUserAnswer;
@@ -44,9 +54,12 @@ public class GameActivity extends AppCompatActivity {
 
     private SessionManager mSession;
     private String mUniqueId;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     // Before user finishes looking at questions and answers when in 'Easy mode', easeDone is set to false
     private boolean easyDone = false;
+
+    private ArrayList<EasyModeItem> mHintList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +95,13 @@ public class GameActivity extends AppCompatActivity {
         mPointsCounter = (TextView) findViewById(R.id.points);
         mUserAnswer = (EditText) findViewById(R.id.userAnswer);
 
-        mSession = new SessionManager(GameActivity.this);
-        if(gameID != null){
-            mUniqueId = gameID;
-        }else{
-            mUniqueId = UUID.randomUUID().toString();
+        mHintListView = (RecyclerView) findViewById(R.id.list_recycler_view_hints);
 
+        mSession = new SessionManager(GameActivity.this);
+        if (gameID != null) {
+            mUniqueId = gameID;
+        } else {
+            mUniqueId = UUID.randomUUID().toString();
         }
 
 
@@ -107,26 +121,44 @@ public class GameActivity extends AppCompatActivity {
 
         // Easy mode, user gets to view questions and answers before starting the game
         if (difficulty.equals("Easy")) {
-            TableLayout table = (TableLayout) findViewById(R.id.question_table);
+
+           // TableLayout table = (TableLayout) findViewById(R.id.question_table);
 
             // Add all 7 questions and answers to the table layout
             for (int i = 0; i < questions.size(); i++) {
-                TableRow row = new TableRow(this);
-                row.setBackgroundColor(Color.WHITE);
+                mHintList.add(new EasyModeItem(questions.get(i).getQuestion(), questions.get(i).getCorrectAnswer()));
+                System.out.println("HALLOOOOOOO " + mHintList);
+                // Question
+             /*   TableRow questionRow = new TableRow(this);
+                questionRow.setLayoutParams((new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)));
+                questionRow.setBackgroundColor(Color.WHITE);
+
                 TextView question = new TextView(this);
                 question.setText("" + questions.get(i).getQuestion());
+
+                questionRow.addView(question);
+                table.addView(questionRow);
+
+                // Answer
+                TableRow answerRow = new TableRow(this);
+                answerRow.setBackgroundColor(Color.BLUE);
+
                 TextView answer = new TextView(this);
                 answer.setText("" + questions.get(i).getCorrectAnswer());
-                row.addView(question);
-                row.addView(answer);
-                table.addView(row);
+
+                answerRow.addView(answer);
+                table.addView(answerRow);*/
             }
+
+            // Create a RecyclerView list of CardView items with mHintList data
+            mHintListView.setVisibility(View.VISIBLE);
+            createRecyclerViewList();
 
             mButtonStartGame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     setContentView(R.layout.activity_game_medium);
-
+                    System.out.println("Buin að skoða spurningar og svör");
                     // TODO byrja leik
                 }
             });
@@ -267,6 +299,22 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void createRecyclerViewList() {
+        mHintListView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new EasyModeAdapter(mHintList);
+
+        mHintListView.setLayoutManager(mLayoutManager);
+        mHintListView.setAdapter(mAdapter);
+/*
+        mAdapter.setOnItemClickListener(new EasyModeAdapter.OnItemClickListener() {
+            @Override
+            public void onAddClick(int position) {
+                System.out.println("HALLOO HEIMUR SIDDIDUUUDUDUDUDU");
+            }
+        });*/
     }
 
     private static Stack<Question> getSevenQuestions(Stack<Question> allQuestions) {
