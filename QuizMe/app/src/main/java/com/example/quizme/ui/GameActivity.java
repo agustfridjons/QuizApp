@@ -149,7 +149,6 @@ public class GameActivity extends AppCompatActivity {
         // Medium mode, user chooses between four different options for each question
         if (difficulty.equals("Medium") || easyDone) {
 
-<<<<<<< HEAD
             String[] randomAnswers = randomizeAnswers(currentQuestion.getCorrectAnswer(), currentQuestion.getWrongAnswers());
 
             for (int i = 0; i < randomAnswers.length; i++) {
@@ -210,10 +209,11 @@ public class GameActivity extends AppCompatActivity {
             mButtonThree.setOnClickListener(event);
             mButtonFour.setOnClickListener(event);
 
-=======
             //String currentQuestion, String category, String challengerName, Stack<Question> questions)
             playMediumGame(category, challengerName, questions, difficulty);
->>>>>>> eee1305faa7786d8a2dbea2e12d6d39db462ff67
+            //String currentQuestion, String category, String challengerName, Stack<Question> questions)
+            playMediumGame(category, challengerName, questions, difficulty);
+
         }
 
 
