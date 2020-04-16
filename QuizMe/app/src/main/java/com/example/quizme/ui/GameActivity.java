@@ -109,8 +109,8 @@ public class GameActivity extends AppCompatActivity {
         Stack<Question> questions = getSevenQuestions(allQuestions);
 
         System.out.println("Lengd "+questions.size());
-        Question currentQuestion = questions.pop();
-        System.out.println("FYRSTA SPURNING ER: " + currentQuestion.getQuestion());
+
+        //System.out.println("FYRSTA SPURNING ER: " + currentQuestion.getQuestion());
         System.out.println("DIFFICULTY VALINN: " + difficulty);
 
         // Easy mode, user gets to view questions and answers before starting the game
@@ -122,26 +122,11 @@ public class GameActivity extends AppCompatActivity {
             for (int i = 0; i < questions.size(); i++) {
                 mHintList.add(new EasyModeItem(questions.get(i).getQuestion(), questions.get(i).getCorrectAnswer()));
                 System.out.println("HALLOOOOOOO " + mHintList);
-                // Question
-             /*   TableRow questionRow = new TableRow(this);
-                questionRow.setLayoutParams((new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)));
-                questionRow.setBackgroundColor(Color.WHITE);
 
-                TextView question = new TextView(this);
-                question.setText("" + questions.get(i).getQuestion());
+            }
 
-                questionRow.addView(question);
-                table.addView(questionRow);
-
-                // Answer
-                TableRow answerRow = new TableRow(this);
-                answerRow.setBackgroundColor(Color.BLUE);
-
-                TextView answer = new TextView(this);
-                answer.setText("" + questions.get(i).getCorrectAnswer());
-
-                answerRow.addView(answer);
-                table.addView(answerRow);*/
+            for (int i = 0; i < questions.size(); i++) {
+                System.out.println("FIRST: Question nr. " + i + ":" + questions.get(i).getQuestion());
             }
 
             // Create a RecyclerView list of CardView items with mHintList data
@@ -151,9 +136,11 @@ public class GameActivity extends AppCompatActivity {
             mButtonStartGame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setContentView(R.layout.activity_game_medium);
+
                     System.out.println("Buin að skoða spurningar og svör");
                     // TODO byrja leik
+                    setContentView(R.layout.activity_game_medium);
+                    playMediumGame(category, challengerName, questions, difficulty);
                 }
             });
         }
@@ -162,6 +149,7 @@ public class GameActivity extends AppCompatActivity {
         // Medium mode, user chooses between four different options for each question
         if (difficulty.equals("Medium") || easyDone) {
 
+<<<<<<< HEAD
             String[] randomAnswers = randomizeAnswers(currentQuestion.getCorrectAnswer(), currentQuestion.getWrongAnswers());
 
             for (int i = 0; i < randomAnswers.length; i++) {
@@ -222,11 +210,17 @@ public class GameActivity extends AppCompatActivity {
             mButtonThree.setOnClickListener(event);
             mButtonFour.setOnClickListener(event);
 
+=======
+            //String currentQuestion, String category, String challengerName, Stack<Question> questions)
+            playMediumGame(category, challengerName, questions, difficulty);
+>>>>>>> eee1305faa7786d8a2dbea2e12d6d39db462ff67
         }
 
 
         // Hard mode, user inputs the answer
         if (difficulty.equals("Hard")) {
+            Question currentQuestion = questions.pop();
+
             mQuestion.setText(currentQuestion.getQuestion());
             correctAnswer = currentQuestion.getCorrectAnswer();
 
@@ -240,7 +234,7 @@ public class GameActivity extends AppCompatActivity {
                     // Answer from user
                     String userAnswer = mUserAnswer.getText().toString();
 
-                    if (userAnswer.equals(correctAnswer)) {
+                    if (userAnswer.toLowerCase().equals(correctAnswer.toLowerCase())) {
                         Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                         numCorrectAnswers++;
                         mPointsCounter.setText(" " + numCorrectAnswers);
@@ -257,6 +251,7 @@ public class GameActivity extends AppCompatActivity {
                         Intent gameResultsIntent = new Intent(GameActivity.this, GameResultsActivity.class);
                         startActivity(gameResultsIntent);
                     } else {
+                        mUserAnswer.getText().clear();
                         mQuestionNumber.setText(questionCounter + " / " + 7);
                         Question currentQuestion = questions.pop(); //TODO Gera meira random
                         mQuestion.setText(currentQuestion.getQuestion());
@@ -344,6 +339,89 @@ public class GameActivity extends AppCompatActivity {
             i++;
         }
         return Answers;
+    }
+
+    private void playMediumGame(String category, String challengerName, Stack<Question> questions, String difficulty) {
+       /*(*) if (difficulty.equals("Easy")) {
+            setContentView(R.layout.activity_game_medium);
+        }*/
+
+        Question currentQuestion = questions.pop();
+
+        mQuestion = (TextView) findViewById(R.id.question);
+        mQuestionNumber = (TextView) findViewById(R.id.question_number);
+        mPointsCounter = (TextView) findViewById(R.id.points);
+
+        mButtonOne = (Button) findViewById(R.id.button_one);
+        mButtonTwo = (Button) findViewById(R.id.button_two);
+        mButtonThree = (Button) findViewById(R.id.button_three);
+        mButtonFour = (Button) findViewById(R.id.button_four);
+
+        String[] randomAnswers = randomizeAnswers(currentQuestion.getCorrectAnswer(), currentQuestion.getWrongAnswers());
+
+        /*for (int i = 0; i < randomAnswers.length; i++) {
+            System.out.println("Answer " + 1 + ": " + randomAnswers[i]);
+        }*/
+
+        for (int i = 0; i < questions.size(); i++) {
+            System.out.println("Question nr. " + i + ":" + questions.get(i).getQuestion());
+        }
+
+        System.out.println("STARTING MEDIUM GAME");
+        System.out.println("QUESTION OG ANSWER: " + currentQuestion.getQuestion() + currentQuestion.getCorrectAnswer());
+        mQuestion.setText(currentQuestion.getQuestion());
+        mButtonOne.setText(randomAnswers[0]);
+        mButtonTwo.setText(randomAnswers[1]);
+        mButtonThree.setText(randomAnswers[2]);
+        mButtonFour.setText(randomAnswers[3]);
+
+        correctAnswer = currentQuestion.getCorrectAnswer();
+
+        mPointsCounter.setText(" 0");
+        mQuestionNumber.setText(questionCounter + " / 7");
+
+        // Answer from user
+        View.OnClickListener event = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button buttonClicked = (Button) findViewById(v.getId());
+                questionCounter++;
+                if (buttonClicked.getText().toString().trim().equals(correctAnswer.trim())) {
+                    Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
+                    numCorrectAnswers++;
+                    mPointsCounter.setText(" " + numCorrectAnswers);
+                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true, mSession.getSession(), challengerName, mUniqueId);
+                } else {
+                    Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
+                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false, mSession.getSession(), challengerName, mUniqueId);
+
+                }
+
+                if (questions.isEmpty()) {
+                    if (challengerName != null){
+                        dbuser.addChallenge(challengerName,mSession.getSession(), mUniqueId);
+                    }
+                    Intent gameResultsIntent = new Intent(GameActivity.this, GameResultsActivity.class);
+                    startActivity(gameResultsIntent);
+                } else {
+                    mQuestionNumber.setText(questionCounter + " / " + 7);
+                    Question currentQuestion = questions.pop(); //TODO Gera meira random
+                    String[] randomAnswers = randomizeAnswers(currentQuestion.getCorrectAnswer(), currentQuestion.getWrongAnswers());
+                    mQuestion.setText(currentQuestion.getQuestion());
+                    mButtonOne.setText(randomAnswers[0]);
+                    mButtonTwo.setText(randomAnswers[1]);
+                    mButtonThree.setText(randomAnswers[2]);
+                    mButtonFour.setText(randomAnswers[3]);
+                    correctAnswer = currentQuestion.getCorrectAnswer();
+                }
+
+            }
+        };
+
+        mButtonOne.setOnClickListener(event);
+        mButtonTwo.setOnClickListener(event);
+        mButtonThree.setOnClickListener(event);
+        mButtonFour.setOnClickListener(event);
     }
 
 }
