@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
     private int questionCounter = 1;
 
     private SessionManager mSession;
-    private String mUniqueId;
+    private String mUniqueId = null;
 
     // Before user finishes looking at questions and answers when in 'Easy mode', easeDone is set to false
     private boolean easyDone = false;
@@ -56,7 +56,7 @@ public class GameActivity extends AppCompatActivity {
         String difficulty = getIntent().getStringExtra("Difficulty");
         String challengerName = getIntent().getStringExtra("challengerName");
         String gameID = getIntent().getStringExtra("gameID");
-        System.out.println("challenger name: "+challengerName);
+        System.out.println("challenger name: "+challengerName + " gameID: "+ gameID);
         // Set layout according to difficulty chosen
         if (difficulty.equals("Easy")) {
             setContentView(R.layout.activity_game_easy);
@@ -87,7 +87,6 @@ public class GameActivity extends AppCompatActivity {
             mUniqueId = gameID;
         }else{
             mUniqueId = UUID.randomUUID().toString();
-
         }
 
 

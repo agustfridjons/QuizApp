@@ -71,7 +71,6 @@ public class FriendListActivity extends AppCompatActivity {
 
         //Is session isn't empty then show friend list
         if(mSession.getSession()!=null) {
-            System.out.println(mSession.getSession());
             mAddFriendButton.setVisibility(View.VISIBLE);
             mFriendRequestsButton.setVisibility(View.VISIBLE);
 
@@ -128,7 +127,7 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     private void deleteFriend(int position) {
-        //db.deleteFriend(mSession.getSession(), mFriendList.get(position).getUsername()))
+        //db.removeFriend(mFriendList.get(position).getUsername(), mSession.getSession());
         mFriendList.remove(position);
         mAdapter.notifyItemRemoved(position);
     }
