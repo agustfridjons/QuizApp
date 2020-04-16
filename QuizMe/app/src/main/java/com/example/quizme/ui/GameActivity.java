@@ -116,7 +116,7 @@ public class GameActivity extends AppCompatActivity {
         // Easy mode, user gets to view questions and answers before starting the game
         if (difficulty.equals("Easy")) {
 
-           // TableLayout table = (TableLayout) findViewById(R.id.question_table);
+            // TableLayout table = (TableLayout) findViewById(R.id.question_table);
 
             // Add all 7 questions and answers to the table layout
             for (int i = 0; i < questions.size(); i++) {
@@ -148,72 +148,8 @@ public class GameActivity extends AppCompatActivity {
 
         // Medium mode, user chooses between four different options for each question
         if (difficulty.equals("Medium") || easyDone) {
-
-            String[] randomAnswers = randomizeAnswers(currentQuestion.getCorrectAnswer(), currentQuestion.getWrongAnswers());
-
-            for (int i = 0; i < randomAnswers.length; i++) {
-                System.out.println("Answer " + 1 + ": " + randomAnswers[i]);
-            }
-
-            mQuestion.setText(currentQuestion.getQuestion());
-            mButtonOne.setText(randomAnswers[0]);
-            mButtonTwo.setText(randomAnswers[1]);
-            mButtonThree.setText(randomAnswers[2]);
-            mButtonFour.setText(randomAnswers[3]);
-
-            correctAnswer = currentQuestion.getCorrectAnswer();
-
-            mPointsCounter.setText(" 0");
-            mQuestionNumber.setText(questionCounter + " / 7");
-
-            // Answer from user
-            View.OnClickListener event = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Button buttonClicked = (Button) findViewById(v.getId());
-                    questionCounter++;
-                    if (buttonClicked.getText().toString().trim().equals(correctAnswer.trim())) {
-                        Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
-                        numCorrectAnswers++;
-                        mPointsCounter.setText(" " + numCorrectAnswers);
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty, true, mSession.getSession(), challengerName, mUniqueId);
-                    } else {
-                        Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
-                        dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category,  difficulty,false, mSession.getSession(),challengerName, mUniqueId);
-
-                    }
-
-                    if (questions.isEmpty()) {
-                        if(challengerName != null){
-                            dbuser.addChallenge(challengerName,mSession.getSession(), mUniqueId);
-                        }
-                        Intent gameResultsIntent = new Intent(GameActivity.this, GameResultsActivity.class);
-                        startActivity(gameResultsIntent);
-                    } else {
-                        mQuestionNumber.setText(questionCounter + " / " + 7);
-                        Question currentQuestion = questions.pop(); //TODO Gera meira random
-                        String[] randomAnswers = randomizeAnswers(currentQuestion.getCorrectAnswer(), currentQuestion.getWrongAnswers());
-                        mQuestion.setText(currentQuestion.getQuestion());
-                        mButtonOne.setText(randomAnswers[0]);
-                        mButtonTwo.setText(randomAnswers[1]);
-                        mButtonThree.setText(randomAnswers[2]);
-                        mButtonFour.setText(randomAnswers[3]);
-                        correctAnswer = currentQuestion.getCorrectAnswer();
-                    }
-
-                }
-            };
-
-            mButtonOne.setOnClickListener(event);
-            mButtonTwo.setOnClickListener(event);
-            mButtonThree.setOnClickListener(event);
-            mButtonFour.setOnClickListener(event);
-
             //String currentQuestion, String category, String challengerName, Stack<Question> questions)
             playMediumGame(category, challengerName, questions, difficulty);
-            //String currentQuestion, String category, String challengerName, Stack<Question> questions)
-            playMediumGame(category, challengerName, questions, difficulty);
-
         }
 
 
@@ -390,10 +326,10 @@ public class GameActivity extends AppCompatActivity {
                     Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                     numCorrectAnswers++;
                     mPointsCounter.setText(" " + numCorrectAnswers);
-                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true, mSession.getSession(), challengerName, mUniqueId);
+                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty,true, mSession.getSession(), challengerName, mUniqueId);
                 } else {
                     Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
-                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false, mSession.getSession(), challengerName, mUniqueId);
+                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty,false, mSession.getSession(), challengerName, mUniqueId);
 
                 }
 
