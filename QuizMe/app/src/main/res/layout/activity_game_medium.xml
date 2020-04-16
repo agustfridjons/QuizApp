@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/question"
-        android:layout_width="wrap_content"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_bold"
         android:textSize="18sp"
