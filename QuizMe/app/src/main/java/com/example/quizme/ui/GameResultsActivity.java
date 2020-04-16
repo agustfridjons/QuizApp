@@ -72,72 +72,87 @@ public class GameResultsActivity extends AppCompatActivity {
         Integer score = 0;
         ArrayList<String> games = new ArrayList<String>();
         String username = mSession.getSession();
-
-        ArrayList<String> gameId = db.getGameId(username);
-        for(int o = 0; o<gameId.size(); o++) {
-            ArrayList<GameResults> gameresults = db.getGameResults(gameId.get(o));
-            String category = gameresults.get(o).getCategory();
-            String categoryResult = "Category: " + category;
+        System.out.println("ÞETTA ER USERNAME AAA +++++ " +username);
+        if(username == null){
             TableLayout mGameResultsTable = (TableLayout) findViewById(R.id.gameresults_table);
+            TextView tvNoUser = new TextView(this);
+            tvNoUser.setText("Þarft að skrá þig inn");
+        } else {
 
-            TableRow trCategory = new TableRow(this);
-            TextView tvCategory = new TextView(this);
-            tvCategory.setText(categoryResult);
-            tvCategory.setTextColor(Color.BLACK);
-            trCategory.addView(tvCategory);
-            tvCategory.setPadding(0,40,3,3);
-            ((TableLayout) mGameResultsTable).addView(trCategory);
+            ArrayList<String> gameId = db.getGameId(username);
+            if (gameId == null) {
+                TableLayout mGameResultsTable = (TableLayout) findViewById(R.id.gameresults_table);
+                TextView tvNoGame = new TextView(this);
+                tvNoGame.setText("Þarft að spila leik");
+            } else {
+                System.out.println("ÞETTA ER GAMEID AAA +++++ " + gameId);
+                for (int o = 0; o < gameId.size(); o++) {
+                    ArrayList<GameResults> gameresults = db.getGameResults(gameId.get(o));
+                    String difficulty = gameresults.get(0).getDifficulty();
+                    String category = gameresults.get(o).getCategory();
+                    String categoryResult = "Category: " + category;
+                    TableLayout mGameResultsTable = (TableLayout) findViewById(R.id.gameresults_table);
 
-            TableRow tbrow0 = new TableRow(this);
-            TextView tv0 = new TextView(this);
-            tv0.setText("Question nr.");
-            tv0.setTextColor(Color.BLACK);
-            tv0.setPadding(0,10,3,3);
-            tbrow0.addView(tv0);
+                    TableRow trCategory = new TableRow(this);
+                    TextView tvCategory = new TextView(this);
+                    tvCategory.setText(categoryResult);
+                    tvCategory.setTextColor(Color.BLACK);
+                    trCategory.addView(tvCategory);
+                    tvCategory.setPadding(0, 40, 3, 3);
+                    ((TableLayout) mGameResultsTable).addView(trCategory);
 
-            TextView tv3 = new TextView(this);
-            tv3.setText(" Correct Answer ");
-            tv3.setTextColor(Color.BLACK);
-            tbrow0.addView(tv3);
-            ((TableLayout) mGameResultsTable).addView(tbrow0);
+                    TableRow tbrow0 = new TableRow(this);
+                    TextView tv0 = new TextView(this);
+                    tv0.setText("Question nr.");
+                    tv0.setTextColor(Color.BLACK);
+                    tv0.setPadding(0, 10, 3, 3);
+                    tbrow0.addView(tv0);
 
-            for (int i = 0; i < 7; i++) {
-                Integer userAnswer = gameresults.get(i).getUserAnswers();
-                String correctAnswer = gameresults.get(i).getCorrectAnswer();
-                TableRow tbrow = new TableRow(this);
-                if (userAnswer == 1) {
-                    tbrow.setBackgroundColor(Color.parseColor("#99FF99"));
-                    score++;
-                } else if (userAnswer == 0) {
-                    tbrow.setBackgroundColor(Color.parseColor("#FF9999"));
+                    TextView tv3 = new TextView(this);
+                    tv3.setText(" Correct Answer ");
+                    tv3.setTextColor(Color.BLACK);
+                    tbrow0.addView(tv3);
+                    ((TableLayout) mGameResultsTable).addView(tbrow0);
 
+                    for (int i = 0; i < 7; i++) {
+                        Integer userAnswer = gameresults.get(i).getUserAnswers();
+                        String correctAnswer = gameresults.get(i).getCorrectAnswer();
+                        TableRow tbrow = new TableRow(this);
+                        if (userAnswer == 1) {
+                            tbrow.setBackgroundColor(Color.parseColor("#99FF99"));
+                            score++;
+                        } else if (userAnswer == 0) {
+                            tbrow.setBackgroundColor(Color.parseColor("#FF9999"));
+
+                        }
+                        TextView t1v = new TextView(this);
+                        t1v.setText("" + i);
+                        t1v.setTextColor(Color.BLACK);
+                        t1v.setGravity(Gravity.CENTER);
+                        tbrow.addView(t1v);
+
+                        TextView t4v = new TextView(this);
+                        t4v.setText(correctAnswer);
+                        t4v.setTextColor(Color.BLACK);
+                        t4v.setGravity(Gravity.LEFT);
+                        if (i == 6) {
+                            //tbrow.setPadding(0,0,0, 200);
+                        }
+                        tbrow.addView(t4v);
+                        ((TableLayout) mGameResultsTable).addView(tbrow);
+
+                    }
+                    String scoreString = "Score " + score.toString() + "/7";
+                    TableRow tbrowScore = new TableRow(this);
+                    TextView tvScore = new TextView(this);
+                    tvScore.setGravity(Gravity.CENTER);
+                    tvScore.setText(scoreString);
+                    tvScore.setTextColor(Color.BLACK);
+                    tbrowScore.addView(tvScore);
+                    ((TableLayout) mGameResultsTable).addView(tbrowScore);
+                    score = 0;
                 }
-                TextView t1v = new TextView(this);
-                t1v.setText("" + i);
-                t1v.setTextColor(Color.BLACK);
-                t1v.setGravity(Gravity.CENTER);
-                tbrow.addView(t1v);
-
-                TextView t4v = new TextView(this);
-                t4v.setText(correctAnswer);
-                t4v.setTextColor(Color.BLACK);
-                t4v.setGravity(Gravity.LEFT);
-                if( i == 6){
-                    //tbrow.setPadding(0,0,0, 200);
-                }
-                tbrow.addView(t4v);
-                ((TableLayout) mGameResultsTable).addView(tbrow);
-
             }
-            String scoreString = "Score " + score.toString() + "/7";
-            TableRow tbrowScore = new TableRow(this);
-            TextView tvScore = new TextView(this);
-            tvScore.setGravity(Gravity.CENTER);
-            tvScore.setText(scoreString);
-            tvScore.setTextColor(Color.BLACK);
-            tbrowScore.addView(tvScore);
-            ((TableLayout) mGameResultsTable).addView(tbrowScore);
-            score = 0;
         }
 
         }

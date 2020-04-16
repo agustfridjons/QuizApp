@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:orientation="vertical">
 <!--
     <androidx.recyclerview.widget.RecyclerView
@@ -30,9 +31,10 @@
         android:id="@+id/question_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_medium"
+        android:fontFamily="@font/quicksand_bold"
+        android:layout_gravity="center"
         android:textSize="18sp"
-        android:textColor="#eeeeee" />
+        android:textColor="#4A4A4A" />
 
     <Space
         android:layout_width="match_parent"
@@ -40,10 +42,11 @@
 
     <TextView
         android:id="@+id/question"
-        android:layout_width="wrap_content"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand_medium"
-        android:textSize="18sp" />
+        android:fontFamily="@font/quicksand_bold"
+        android:textSize="18sp"
+        android:textColor="#131313"/>
 
     <Space
         android:layout_width="match_parent"
@@ -51,7 +54,7 @@
 
     <Button
         android:id="@+id/button_one"
-        android:layout_width="250dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
@@ -62,7 +65,7 @@
 
     <Button
         android:id="@+id/button_two"
-        android:layout_width="250dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
@@ -73,7 +76,7 @@
 
     <Button
         android:id="@+id/button_three"
-        android:layout_width="250dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
@@ -84,7 +87,7 @@
 
     <Button
         android:id="@+id/button_four"
-        android:layout_width="250dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_custom_white"
         android:text="ýta hér" />
