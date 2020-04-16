@@ -116,7 +116,7 @@ public class GameActivity extends AppCompatActivity {
         // Easy mode, user gets to view questions and answers before starting the game
         if (difficulty.equals("Easy")) {
 
-           // TableLayout table = (TableLayout) findViewById(R.id.question_table);
+            // TableLayout table = (TableLayout) findViewById(R.id.question_table);
 
             // Add all 7 questions and answers to the table layout
             for (int i = 0; i < questions.size(); i++) {
@@ -326,10 +326,10 @@ public class GameActivity extends AppCompatActivity {
                     Toast.makeText(GameActivity.this, "Correct!", Toast.LENGTH_SHORT).show();
                     numCorrectAnswers++;
                     mPointsCounter.setText(" " + numCorrectAnswers);
-                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, true, mSession.getSession(), challengerName, mUniqueId);
+                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty,true, mSession.getSession(), challengerName, mUniqueId);
                 } else {
                     Toast.makeText(GameActivity.this, "Incorrect!", Toast.LENGTH_SHORT).show();
-                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, false, mSession.getSession(), challengerName, mUniqueId);
+                    dbgame.addGameResults(mQuestion.getText().toString(), correctAnswer, category, difficulty,false, mSession.getSession(), challengerName, mUniqueId);
 
                 }
 
