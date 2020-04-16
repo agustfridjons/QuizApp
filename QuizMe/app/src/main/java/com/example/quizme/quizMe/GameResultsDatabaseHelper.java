@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
 
@@ -77,22 +76,54 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<GameResults> getGameResults(Integer gamenumber) {
-        String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_ANSWER};
-        String selection = COLUMN_GAMENUMBER + "=?";
-        String gamenumberString = gamenumber.toString();
-        String[] selectionArgs = {gamenumberString};
+    public ArrayList<String> getGameId(String username){
+        String[] column = {COLUMN_GAMEID};
+        String selection = COLUMN_USER + "=?";
+        String selectionQuery = "SELECT * FROM " + TABLE_NAME;
+        String[] selectionArgs = {username};
+        db = getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, column, selection, selectionArgs, COLUMN_GAMEID, null, null);
+        final int gameidIndex = cursor.getColumnIndex(COLUMN_GAMEID);
+        try {
+            if (!cursor.moveToFirst()) {
+                return null;
+            }
+            ArrayList<String> gameId = new ArrayList<>();;
+            int i = 0;
+            do {
+                final String gameid = cursor.getString(gameidIndex);
+
+                gameId.add(gameid);
+                i++;
+            } while (cursor.moveToNext());
+            return gameId;
+
+        } finally {
+            cursor.close();
+        }
+
+    }
+
+
+    public ArrayList<GameResults> getGameResults(String gameid) {
+        String[] columns = {COLUMN_CORRECTANSWER, COLUMN_CATEGORY, COLUMN_ANSWER, COLUMN_GAMEID};
+        String selection = COLUMN_GAMEID + "=?";
+        String[] selectionArgs = {gameid};
         String selectionQuery = "SELECT * FROM " + TABLE_NAME;
         System.out.println("SELECTION: " + selection + "SELECTION_ARGS: " + selectionArgs);
-
         db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectionQuery, null);
+
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+
+        //Cursor cursor = db.rawQuery(selectionQuery, null);
         //Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
         int count = cursor.getCount();
 
         final int correctIndex = cursor.getColumnIndex(COLUMN_CORRECTANSWER);
         final int categoryIndex = cursor.getColumnIndex(COLUMN_CATEGORY);
         final int answerIndex = cursor.getColumnIndex(COLUMN_ANSWER);
+        final int gameidIndex = cursor.getColumnIndex(COLUMN_GAMEID);
+
 
 
         try {
@@ -105,7 +136,9 @@ public class GameResultsDatabaseHelper extends SQLiteOpenHelper {
                 final String correct = cursor.getString(correctIndex);
                 final String category = cursor.getString(categoryIndex);
                 final Integer answer = cursor.getInt(answerIndex);
-                gameresults.add(new GameResults(category, answer, correct));
+                final String gameID = cursor.getString(gameidIndex);
+
+                gameresults.add(new GameResults(category, answer, correct, gameID));
                 i++;
             } while (cursor.moveToNext());
             return gameresults;

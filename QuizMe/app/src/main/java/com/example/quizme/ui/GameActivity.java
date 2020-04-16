@@ -204,7 +204,7 @@ public class GameActivity extends AppCompatActivity {
 
                     if (questions.isEmpty()) {
                         if(challengerName != null){
-                            dbuser.addChallenger(mSession.getSession(), challengerName, mUniqueId);
+                            dbuser.addChallenge(challengerName,mSession.getSession(), mUniqueId);
                         }
                         Intent gameResultsIntent = new Intent(GameActivity.this, GameResultsActivity.class);
                         startActivity(gameResultsIntent);

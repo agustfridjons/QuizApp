@@ -2,12 +2,13 @@ package com.example.quizme.quizMe;
 
 public class GameResults {
     int id, score, userAnswer;
-    String category, correctAnswer;
+    String category, correctAnswer, gameid;
 
-    public GameResults(String category, Integer userAnswer, String correctAnswer) {
+    public GameResults(String category, Integer userAnswer, String correctAnswer, String gameid) {
         this.category = category;
         this.userAnswer = userAnswer;
         this.correctAnswer = correctAnswer;
+        this.gameid = gameid;
     }
     // TODO List<Question, Boolean> correctlyAnswered;
 
@@ -31,6 +32,10 @@ public class GameResults {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getGameid() {
+        return gameid;
     }
 
     public Integer getUserAnswers() { return userAnswer; }
